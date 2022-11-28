@@ -23,7 +23,9 @@ const express = require( 'express' ),
             .use( publicStorage )
             .use( router )
 
-            .listen(app.get("port"), ()=>{
-                console.log(`Iniciado el servidor en el puerto ${ app.get("port") }`)
-                connection.con()
-            })
+            .listen( app.get("port"), 
+                ()=>{
+                    console.log(`Iniciado el servidor en el puerto ${ app.get("port") }`)
+                    connection.con()
+                }
+            )
