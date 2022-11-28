@@ -12,20 +12,20 @@ const express = require( 'express' ),
         { connection } = require( './database/db_con' )
 
 
-        app.set( 'port', port )
-            .use( morgan('dev') )
-            .set( 'view engine','pug' )
-            .set( 'views',viewDir )
-            .use( express.json() )
-            .use( express.urlencoded({extended:false}) )
-            .use( cookieParser() )
-            .use( publicDir )
-            .use( publicStorage )
-            .use( router )
+app.set( 'port', port )
+    .use( morgan('dev') )
+    .set( 'view engine','pug' )
+    .set( 'views',viewDir )
+    .use( express.json() )
+    .use( express.urlencoded({extended:false}) )
+    .use( cookieParser() )
+    .use( publicDir )
+    .use( publicStorage )
+    .use( router )
 
-            .listen( app.get("port"), 
-                ()=>{
-                    console.log(`Iniciado el servidor en el puerto ${ app.get("port") }`)
-                    connection.con()
-                }
-            )
+    .listen( app.get("port"), 
+        ()=>{
+            console.log(`Iniciando en el puerto http://localhost:${port}`)
+            connection.con()
+        }
+    )
