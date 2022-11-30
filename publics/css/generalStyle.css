@@ -1,366 +1,141 @@
+/* Estilos generales */
 *{
     padding: 0;
     margin: 0;
-    font-family: 'Courier New', Courier, monospace;
-    text-transform: capitalize;
 }
 
 body{
-    background-color: rgba(255, 228, 196, 0.8);
+    text-transform: capitalize;
+    font-family: 'Roboto Mono', monospace;
+    background-color: #ffffff;
 }
 
-button{
-    padding: 8px;
-    border: none;
-}
-
-button:hover{
-    background-color: teal;
-}
-
-#cabezera{
-    padding-top: 30px;
-    text-align: center;
-    font-size: 15px;
-}
-
-.user{
-    border-bottom: solid 2px #380c2a;
-}
-
-#singinContainer{
-    width: 400px;
-    height: 250px;
-    background-color:#380c2a8a;
-    margin: 100px auto;
-    border-radius: 20px;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    -ms-border-radius: 20px;
-    -o-border-radius: 20px;
-    border: 4px solid #380c2acb;
-    padding: 10px;
-    font-size: 18px;
-    font-family: 'Courier New', Courier, monospace;
-}
-
-.singinGitHub td{
-    text-align: center;
-}
-
-.singinGitHub img{
-    vertical-align: middle;
-}
-.singinGitHub p{
-    display: inline;
-    padding: 10px;
-}
-
-input{
-    font-family: 'Courier New', Courier, monospace;
-}
-
-#singinForm{
-    margin: 10px auto;
-}
-
-#content{
-    margin: auto;
-}
-
-.singinInput label{
-    text-align: left;
-    padding: 10px;
-}
-
-.singinInput input{
-    padding: 6px;
-    margin: 2px;
-}
-
-.singinButton{
-    text-align: center;
-}
-
-.singinButton input{
-    font-size: 14px;
-    font-weight: bold;
-    height: 35px;
-    width: 100px;
-    margin: 10px;
-    padding: 5px;
-    border: 0px;
-}
-
-.singinButton input:hover{
-    background-color:teal;
-}
-
-a{
-    text-decoration: none;
-}
-
-.singinRegistro p{
-    padding: 5px;
-    text-align: center;
-}
-
-.title{
-    text-align: center;
-}
-
-.title th{
-    padding: 20px;
-}
-
-#singupContainer{
-    width: 400px;
-    height: 300px;
-    background-color:#380c2a8a;
-    margin: 100px auto;
-    border-radius: 20px;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    -ms-border-radius: 20px;
-    -o-border-radius: 20px;
-    border: 4px solid #380c2acb;
-    padding: 10px;
-    font-size: 18px;
-    font-family: 'Courier New', Courier, monospace;
-}
-
-.singupButton{
-    text-align: center;
-}
-
-.singupButton input{
-    margin-top: 10px;
-    width: 110px;
-    height: 35px;
-    font-weight: bolder;
-    font-size: 14px;
-    padding: 5px;
-    border: 0px;
-}
-
-.singupButton input:hover{
-    background-color: teal;
-}
-
-.navbar{ 
-    padding: 10px;
-    background-color: rgba(61, 5, 87);
-    border-bottom: 2px solid rgb(116, 18, 18);
-}
-
-.navbar a{
-    font-size: 18px;
-    font-weight: bold;
-    color: aliceblue;
-}
-
-.navbar ul{
-    display: flex;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-.navbar ul li{
-    padding: 10px;
-}
-
-.navbar a:hover{
-    color: black;
-    border-radius: 20px;
+/* Estilos de errores */
+.error{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 700;
     padding: 15px;
-    background-color: rgba(165, 42, 42, 0.6);
+    margin: auto;
+    width: 90%;
+    height: min-content;
+    text-align: center;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+}
+
+.error img{
+    margin: auto;
+    width: 40%;
+    height: auto;
+    border-radius: 20px;
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
     -ms-border-radius: 20px;
     -o-border-radius: 20px;
 }
 
-.user {
-    background-color: rgba(61, 5, 87, 0.7);
+.error a {
+    display: block;
+    text-decoration: none;
+    color: black;
+    cursor: default;
+}
+
+.error button{
+    font-family: 'Roboto Mono', monospace;
+    background-color: #e60023;
+    border: none;
     color: white;
+    padding: 14px 25px;
     text-align: center;
-    padding: 20px;
-    
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
 }
 
-.user h2{
-    text-transform:uppercase;
+.error button:hover{
+    cursor: pointer;
+    background-color: #e6003aad;
 }
 
-.user h2:hover{
-    font-family: fantasy;
-    font-size: 24px;
-}
+/* Estilos del footer */
 
-#container{
-    padding: 20px;
-    font-size: 15px;
-}
-
-#container table{
-    color: white;
-    margin: 10px auto;
-    width: max-content;
-    height: max-content;
-    border-collapse: collapse;
-}
-
-#container table tr{
-    border-left: 5px solid #2c2c2c;
-}
-
-#container td{
-    padding: 5px;
-    background-color: #380c2ac5;
-    font-size: 15px;
-    font-weight: bolder;
-}
-
-#container th{
-    background-color: #380c2ad9;
-    text-align: center;
+footer {
     padding: 10px;
-}
-
-#container .title th{
-    border-bottom: 1px solid #2c2c2c;
-    font-size: 20px;
-    background-color: #380c2a;
-}
-
-.tasks, .todolist, .taskAsigned, .archivedList{
-    font-style: oblique;
-    border-radius: 5px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #767676;
+    color: #ffffff;
     text-align: center;
-    margin: 10px auto;
+}
+
+footer img{
+    display: inline;
+    position: absolute;
+    bottom: 5px;
+}
+
+footer div{
+    display: inline;
+    padding-right: 10px;
+}
+
+/* Estilos de la barra de navegacion */
+
+.navbar {
+    width: 100%;
+    background-color: #f3f3f3;
+    overflow: auto;
+    border: 2px solid #e7e7e7;
+}
+
+.navbar a {
+    float: left;
+    text-align: center;
+    margin-right: 45px;
+    padding: 14px;
+    color: rgb(94, 92, 92);
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.navbar a:hover {
+    background-color: rgba(255, 0, 0, 0.7);
+    padding-right: 70px;
+    transition: 500ms;
+    -webkit-transition: 500ms;
+    -moz-transition: 500ms;
+    -ms-transition: 500ms;
+    -o-transition: 500ms;
+    border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
 }
 
-#asignarEmail input{
-    padding: 5px;
-    font-size: 14px;
-}
-
-.newTask{
-    padding: 20px;
-}
-
-.newTask table{
-    margin: auto;
-    border-collapse:collapse;
-    color: white;
-}
-
-.newTask th{
-    padding: 10px;
-    background-color: #380c2a;
-    color: aliceblue;
-    border-bottom:  solid #380c2aad;
-}
-.newTask td{
-    padding: 15px;
-    background-color: #380c2ac5
-}
-
-.newTask input, select{
-    border: none;
-    padding: 5px;
-    font-size: 15px;
-}
-
-.sabeButton input{
-    width: 90px;
-    height: 30px;
-}
-.sabeButton input:hover{
-    background-color: teal;
-}
-
-.errorContainer{
-    padding: 20px;
-    margin: auto;
-    width: 500px;
-    height: 500px;
-}
-
-.errorContainer h1{
-    padding: 20px;
-    text-align: center;
-}
-
-.errorContainer img{
-    border-radius: 100px;
-    -webkit-border-radius: 100px;
-    -moz-border-radius: 100px;
-    -ms-border-radius: 100px;
-    -o-border-radius: 100px;
+#userRight{
+    float:right; 
+    margin-right:5px
 }
 
 
-.containerTodos{
-    padding: 20px;
+@media screen and (max-width: 500px) {
+    .navbar a {
+        float: none;
+        display: block;
+    }
 }
-
-.containerTodos .addTask{
-    width: max-content;
-    margin: auto;
-}
-
-.containerTodos table{
-    color: white;
-    border-collapse: collapse;
-}
-
-.addTask table th{
-    background-color: #380c2a;
-}
-
-.addTask table td{
-    background-color: #380c2ad5;
-    padding: 10px;
-}
-
-.addTask button{
-    padding: 7px;
-    width: 100px;
-}
-
-.containerTodos th{
-    font-size: 20px;
-    padding: 20px;
-}
-
-.status{
-    padding: 20px;
-    margin: auto;
-    text-align: center;
-}
-
-select{
-    padding: 7px;
-}
-
-.orderby button{
-    background-color: #380c2ac5;
-    border: 0px;
-    border-radius: 20px;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    -ms-border-radius: 20px;
-    -o-border-radius: 20px;
-    padding: 10px;
-    color: white;
-    font-weight: bold;
-}
-
-
 

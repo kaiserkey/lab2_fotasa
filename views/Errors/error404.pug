@@ -1,9 +1,12 @@
 doctype html
 html(lang="es-ES")
-    require('../Modules/head.pug')
+    include ../Modules/head.pug
     body
-        require('../Modules/main.pug')
 
-        img(src="/img/error_404_page_not_found.jpg" alt="error 404 page not found")
+        section.error
+            h3 Error Pagina No Encontrada
+            img(src="/img/error_404_page_not_found.jpg" alt="error 404 page not found")
+            a(href="#") 
+                button(type='button') Inicio
 
-        require('../Modules/footer.pug')
+        include ../Modules/footer.pug
