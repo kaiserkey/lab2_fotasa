@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) =>
     
     static associate(models) {
       Imagen.belongsTo(models.Usuario)
-      Imagen.hasOne(models.Publicacion, { as: 'imagen_publicaciones', foreignKey: 'imagen_id' })
+      Imagen.hasOne(models.Publicacion, { as: 'publicaciones', foreignKey: 'imagen_id'})
     }
 
   }

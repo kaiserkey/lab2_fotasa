@@ -7,12 +7,12 @@ module.exports = ( sequelize, DataTypes ) =>
 
   class Publicacion extends Model {
     
-    static associate(models) {
-      Publicacion.belongsTo(models.Imagen)
-      Publicacion.hasOne(models.Valoracion, { as: 'publicacion_likes', foreignKey: 'publicacion_id'})
-      Publicacion.hasMany(models.Comentario, { as: 'publicacion_comentarios', foreignKey: 'publicacion_id' })
-      Publicacion.hasMany(models.Etiqueta, { as: 'etiquetas', foreignKey: 'publicacion_id' })
-      Publicacion.belongsTo(models.Usuario)
+    static associate( models ) {
+      Publicacion.belongsTo( models.Imagen, {as: 'imagen', foreignKey: 'imagen_id' , onDelete: 'CASCADE' , onUpdate: 'CASCADE'})
+      Publicacion.belongsTo( models.Usuario )
+      Publicacion.hasOne( models.Valoracion, { as: 'likes', foreignKey: 'publicacion_id' , onDelete: 'CASCADE'} )
+      Publicacion.hasMany( models.Comentario, { as: 'comentarios', foreignKey: 'publicacion_id' , onDelete: 'CASCADE'} )
+      Publicacion.hasMany( models.Etiqueta, { as: 'etiquetas', foreignKey: 'publicacion_id' , onDelete: 'CASCADE'} )
     }
   }
   

@@ -13,11 +13,11 @@ const express = require( 'express' ),
 
 
 app.set( 'port', port )
-    .use( morgan('dev') )
+    .use( morgan( 'dev' ) )
     .set( 'view engine','pug' )
     .set( 'views',viewDir )
     .use( express.json() )
-    .use( express.urlencoded({extended:false}) )
+    .use( express.urlencoded( { extended:false } ) )
     .use( cookieParser() )
     .use( publicDir )
     .use( publicStorage )
