@@ -9,7 +9,7 @@ module.exports = {
             const ViewPosts = await dbConfig.Publicacion.findAll(
                 {
                     where: {
-                        id: req.params.id
+                        usuario_id: req.params.id
                     },
                     include: ['imagen', 'etiquetas', 'comentarios', 'likes']
                 }
@@ -30,7 +30,8 @@ module.exports = {
             const ViewPosts = await dbConfig.Publicacion.findOne(
                 {
                     where: {
-                        id: req.params.id
+                        id: req.query.id,
+                        usuario_id: req.query.usuario_id
                     },
                     include: ['imagen', 'etiquetas', 'comentarios', 'likes']
                 }

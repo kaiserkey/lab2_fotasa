@@ -4,7 +4,9 @@ const express = require('express'),
         router = express.Router(),
         { err404 } = require('../helppers/helppers'),
         UsuarioController = require('../controllers/UsuarioController'),
-        PublicacionController = require('../controllers/PublicacionController')
+        PublicacionController = require('../controllers/PublicacionController'),
+        ComentarioController = require('../controllers/ComentarioController'),
+        ValoracionController = require('../controllers/ValoracionController')
 
 router.get( '/', (req,res)=>{ res.render('index') } )
         //usuario
@@ -17,6 +19,14 @@ router.get( '/', (req,res)=>{ res.render('index') } )
         .get( '/post/showone/:id', PublicacionController.showOne)
         .post( '/post/update', PublicacionController.update)
         .get( '/post/delete/:id', PublicacionController.delete)
+        //comnetarios
+        .post( '/comment/create', ComentarioController.create)
+        .post( '/comment/update', ComentarioController.update)
+        .get( '/comment/delete/:id', ComentarioController.delete)
+        //valoraciones
+        .post( '/like/create', ValoracionController.create)
+        .post( '/like/update', ValoracionController.update)
+        .get( '/like/delete/:id', ValoracionController.delete)
         //middleware errores
         .use( err404 )
 
