@@ -1,0 +1,28 @@
+doctype html
+html(lang="es-ES")
+    include ../Modules/head.pug
+    body
+        include ../Modules/nav.pug
+        div(class="form-login")
+            form(action="/signin" method="POST")
+            
+                div(class="imgcontainer")
+                    img(src="/img/user-signin.png" alt="Avatar" class="avatar")
+                div(class="container")
+                    label(for="email")
+                        b Email 
+                    div(class="input-container")
+                        i(class="fa fa-envelope icon")
+                        input(type="email" id="email" name="email" placeholder="email@gmail.com" required)
+                    label(for="password") 
+                        b Contraseña
+                    div(class="input-container")
+                        i(class="fa fa-key icon")
+                        input(type="password" id="password" name="password" placeholder="******" required)
+                    button(type='submit') Entrar
+
+                div(class="container-ask")
+                    div(class="signup") ¿Ya Estas Registrado?
+                        a(href="/signup") SignUp
+        
+        include ../Modules/footer.pug

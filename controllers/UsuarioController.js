@@ -74,6 +74,11 @@ module.exports = {
         } catch (err) {
             res.json(err)
         }
+    },
+
+    logout(req,res){
+        res.clearCookie('x-access-token')
+        res.redirect('/')
     }
 
 }

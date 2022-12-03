@@ -1,11 +1,21 @@
 div(class="navbar")
-    a(href="#")
-        i(class="fa fa-user-circle-o fa-pull-left") Usuario
-    a(href="#")
-        i(class="fa fa-fw fa-search fa-pull-left") Buscar
-    a(href="#")
-        i(class="fa fa-fw fa-envelope fa-pull-left") Crear
-    a(href="#")
-        i(class="fa fa-fw fa-user fa-pull-left") Entrar
-    a#userRight(href="#")
-        i(class="fa fa-times-circle-o fa-pull-left") Salir
+    if(!user)
+        navbar(class="invited-nav")
+            a(href="/")
+                img(src="/img/fotaza-logo.png")
+                span Fotaza
+            a(href="/signin" class="invited-login")
+                i(class="fa fa-user" aria-hidden="true") Entrar
+    else 
+        navbar(class="user-nav")
+            a(href="#")
+                i(class="fa fa-fw fa-user-circle-o" aria-hidden="true")= user.nickname || user.nombre
+            a(href="#")
+                i(class="fa fa-fw fa-pencil-square-o" aria-hidden="true") Crear
+            div(class="search-nav-container")
+                form(action="/search" method="POST") 
+                    input(type="text" name="search" placeholder="Buscar..")
+                    button(type='submit')
+                        i(class="fa fa-search")
+            a#userRight(href="/user/logout") 
+                i(class="fa fa-times-circle-o" aria-hidden="true") Salir

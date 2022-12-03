@@ -34,19 +34,27 @@ module.exports = (sequelize, DataTypes) =>
     },
     intereses: {
       type: DataTypes.STRING(100),
-      allowNull: false
+      allowNull: true
     },
     ciudad: {
       type: DataTypes.STRING(80),
-      allowNull: false
+      allowNull: true
     },
     telefono: {
       type: DataTypes.STRING(80),
-      allowNull: false
+      allowNull: true
     },
     fecha_nacimiento: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: true
+    },
+    avatar: {
+      type: DataTypes.STRING(50),
+      allowNull: true
+    },
+    nickname: {
+      type: DataTypes.STRING(10),
+      allowNull: true
     }
   }, 
   {

@@ -1,0 +1,35 @@
+doctype html
+html(lang="es-ES")
+    include ../Modules/head.pug
+    body
+        include ../Modules/nav.pug
+        div(class="form-login")
+            form(action="/signup" method="POST")
+                div(class="info-signup")
+                    h1 Registrarse
+                    p Rellena el siguiente formulario para registrarte.
+                hr
+                div(class="container")
+
+                    label(for="nombre")
+                        b Nombre 
+                    input(type="text" name="nombre" placeholder="Nombre/s" required)
+                    label(for="apellido")
+                        b Apellido 
+                    input(type="text" name="apellido" placeholder="Apellido/s" required)
+                    label(for="fecha_nacimiento")
+                        b Fecha de Nacimiento 
+                    input(type="date" name="fecha_nacimiento" required)
+                    label(for="email")
+                        b Email 
+                    input(type="email" name="email" placeholder="email@gmail.com" required)
+                    label(for="password") 
+                        b Contraseña
+                    input(type="password" name="password" placeholder="******" required)
+                    
+                    button(type='submit') Crear Cuenta
+                div(class="container-ask")
+                    div(class="signup") ¿Ya Estas Registrado?
+                        a(href="/signin") SignIn
+        
+        include ../Modules/footer.pug
