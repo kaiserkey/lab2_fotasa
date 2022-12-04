@@ -32,6 +32,10 @@ module.exports = ( sequelize, DataTypes ) =>
     fecha_creacion: {
       type: DataTypes.DATE,
       allowNull: false
+    },
+    descripcion:{
+      type: DataTypes.STRING(200),
+      allowNull: true
     }
   }, 
   {

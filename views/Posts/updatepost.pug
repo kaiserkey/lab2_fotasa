@@ -5,7 +5,7 @@ html(lang="es-ES")
         include ../Modules/nav.pug
         
         div(class="container-post")
-            form(action="/upload/post" method="POST" enctype="multipart/form-data")
+            form(action="/upload/post" method="post" enctype="multipart/form-data")
                 if(user)
                     input(type="hidden" name="usuario_id" value=`${user.id}`)
                 input(type="text" name="titulo" id="titulo" placeholder="Agrega un titulo" required)
@@ -16,8 +16,6 @@ html(lang="es-ES")
                             option(value="protegido") Protegida
                 hr
                 
-                label(for="image") Selecciona Una Imagen
-                input(type="file" id="image" accept="image/png,image/jpeg,image/jpg,image/webp,image/gif" onchange="preview(event)")
                 div(id="image-container")
                     img(src="/img/image-preview.png" id="image-preview")
                 hr

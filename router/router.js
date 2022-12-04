@@ -4,6 +4,7 @@ const express = require('express'),
         router = express.Router(),
         { err404 } = require('../helppers/helppers'),
         { ifSigned } = require('../controllers/AuthController'),
+        { multerDefaultStorage } = require('../helppers/multerConfig'),
         AuthController = require('../controllers/AuthController'),
         routes_protect = require('../middlewares/routes_protect'),
         UsuarioController = require('../controllers/UsuarioController'),
@@ -23,10 +24,14 @@ router.get( '/home', routes_protect, (req,res)=>{ res.render('Users/index', { us
         .post('/signup', AuthController.signUp)
         .get('/user/logout', UsuarioController.logout)
         //usuario
-        .post( '/signup', UsuarioController.create)
+        .get( '/user/profile',routes_protect, UsuarioController.profile)
+        .get( '/update/profile', routes_protect, UsuarioController.updateProfile)
+        .post( '/update/profile',routes_protect, multerDefaultStorage('avatars').single('avatar'), UsuarioController.update)
         .get( '/home/:id', UsuarioController.show)
-        .post( '/update', UsuarioController.update)
         //publicaciones
+        .get( '/post/new', routes_protect, (req,res)=>{ res.render( 'Posts/newpost' , { user:req.user }) })
+        .get( '/post/view',routes_protect, (req,res)=>{ res.render('Posts/viewpost', { user: req.user }) })
+        .post( '/post/update',routes_protect, (req,res)=>{ res.render('Posts/updatepost', { user: req.user }) })
         .post( '/post/create', PublicacionController.create)
         .get( '/post/show/:id', PublicacionController.showAll)
         .get( '/post/showone/:id', PublicacionController.showOne)

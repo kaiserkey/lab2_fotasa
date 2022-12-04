@@ -1,0 +1,81 @@
+doctype html
+html(lang="es-ES")
+    include ../Modules/head.pug
+    body
+        include ../Modules/nav.pug
+        div(class="container-update-user")
+            form(action="/update/profile" method="POST" enctype="multipart/form-data")
+                div(class="info-title-update")
+                    h1 Perfil del Usuario
+                    p Cambia los datos que deceas actualizar en tu perfil.
+                    hr
+                div(class="user-image-container")
+                    label(for="avatar") Selecciona Una Imagen
+                    input(type="file" id="avatar" name="avatar" accept="image/png,image/jpeg,image/jpg,image/webp,image/gif" onchange="preview(event)")
+                    if(user.avatar)
+                        div(id="image-container-user")
+                            img(src=`/avatars/${user.avatar}` id="image-preview")
+                        hr
+                    else 
+                        div(id="image-container-user")
+                            img(src="/img/image-preview.png" id="image-preview")
+                        hr
+                div(class="user-info-container")
+                    label(for="nombre")
+                        b Nombre 
+                    input(type="text" name="nombre" id="apellido" placeholder="Nombre/s" value=`${user.nombre}` required)
+                    label(for="apellido")
+                        b Apellido 
+                    input(type="text" name="apellido" id="apellido" placeholder="Apellido/s" value=`${user.apellido}` required)
+                    label(for="nickname")
+                        b Apodo 
+                    if(user.nickname)
+                        input(type="text" name="nickname" id="nickname" placeholder="Un Apodo Corto" value=`${user.nickname}` required)
+                    else 
+                        input(type="text" name="nickname" id="nickname" placeholder="Un Apodo Corto" required)
+                    label(for="fecha_nacimiento")
+                        b Fecha de Nacimiento 
+                    input(type="date" name="fecha_nacimiento" id="fecha_nacimiento" value=`${user.fecha_nacimiento}` required)
+                    label(for="email")
+                        b Email 
+                    input(type="email" name="email" id="email" placeholder="myemail@gmail.com" value=`${user.email}` required)
+                    label(for="password") 
+                        b Contraseña
+                    input(type="password" name="password" placeholder="******" required)
+                    label(for="intereses") 
+                        b Intereses
+                    if(user.intereses)
+                        input(type="text" name="intereses" placeholder="Tecnologia, Programacion, Arquitectura, Diseño" value=`${user.intereses}` required)
+                    else 
+                        input(type="text" name="intereses" placeholder="Tecnologia, Programacion, Arquitectura, Diseño" required)
+                    label(for="ciudad") 
+                        b Ciudad
+                    if(user.ciudad)
+                        input(type="text" name="ciudad" placeholder="Ciudad (Villa Mercedes)" value=`${user.ciudad}` required)
+                    else 
+                        input(type="text" name="ciudad" placeholder="Ciudad (Villa Mercedes)" required)
+                    label(for="telefono") 
+                        b Telefono
+                    if(user.telefono)
+                        input(type="tel" name="telefono" placeholder="Codigo De Area Sin El 0 + Numero Sin El 15" value=`${user.telefono}` required)
+                    else 
+                        input(type="tel" name="telefono" placeholder="Codigo De Area Sin El 0 + Numero Sin El 15" required)
+                    hr
+                div(class="update-button")
+                    button(type='submit') Actualizar Datos
+                    a(href="/")
+                        button(type='button') Cancelar
+        script. 
+            var preview = (event)=>{
+                var file_image = new FileReader()
+                var preview_img = document.getElementById('image-preview')
+
+                file_image.onload = ()=>{
+                    if(file_image.readyState == 2){
+                        preview_img.src = file_image.result
+                    }
+                }
+
+                file_image.readAsDataURL(event.target.files[0])
+            }
+        include ../Modules/footer.pug

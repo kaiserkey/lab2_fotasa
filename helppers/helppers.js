@@ -1,6 +1,28 @@
 module.exports = {
 
+    transformOnlyDate(fecha=null){
+
+        let date = new Date(fecha)
+
+        if(date){
+            const addZero = (num)=>
+            {
+                return (num<10) ? '0'+num : num
+            },
+            dia = addZero(date.getDate()),
+            mes = addZero(date.toLocaleDateString("es-ES").split('/')[1]),
+            anno = date.getFullYear(),
+
+            fecha = `${dia}/${mes}/${anno}`
+            
+            return fecha
+        }else{
+            return null
+        }
+    },
+
     transformDates(date=null){
+
         if(date){
             const addZero = (num)=>
             {

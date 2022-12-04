@@ -1,0 +1,56 @@
+doctype html
+html(lang="es-ES")
+    include ../Modules/head.pug
+    body
+        include ../Modules/nav.pug
+        
+        div(class="container-view-post")
+            h1 Titulo
+            div(class="container-view-image")
+                img(src="/img/image-preview.png")
+                form(action="/post/like" method="POST" id="formulario")
+                    input(type="hidden" name="like" id="like" value="")
+                span(class="valorar")
+                    i(class="fa fa-star" aria-hidden="true" onclick=`valorar(1)`)
+                    i(class="fa fa-star" aria-hidden="true" onclick=`valorar(2)`)
+                    i(class="fa fa-star" aria-hidden="true" onclick=`valorar(3)`)
+                    i(class="fa fa-star" aria-hidden="true" onclick=`valorar(4)`)
+                    i(class="fa fa-star" aria-hidden="true" onclick=`valorar(5)`)
+                span(class="valoraciones") 
+                    i(class="fa fa-star" aria-hidden="true")
+                    i(class="fa fa-star" aria-hidden="true")
+                    i(class="fa fa-star" aria-hidden="true")
+                    i(class="fa fa-star-half" aria-hidden="true")
+                    i(class="fa fa-star-o" aria-hidden="true") valoraciones
+                span(class="copyright") copyright
+            div(class="container-view-info")
+                div(class="align-items")
+                    form(action="/post/delete" method="POST" )
+                        input(type="hidden" name="publicacion_id" id="publicacion_id" value=``)
+                        button(type='submit') Eliminar
+                    form(action="/post/update" method="POST")
+                        input(type="hidden" name="publicacion_id" id="publicacion_id" value=``)
+                        button(type='submit') Actualizar
+                hr
+                div Descripcion 
+                h3 Comentarios
+                div(class="align-comment") ...
+                div(class="align-comment") ...
+                div(class="align-items")
+                    form(action="/post/comment" method="POST")
+                        input(type="hidden" name="publicacion_id" id="publicacion_id" value=``)
+                        i(class="fa fa-commenting" aria-hidden="true")
+                        input(type="text" name="comment" id="comment" placeholder="Agregar un cometario")
+                        button(type='submit') Comentar
+                hr
+                div(class="post-contact")
+                    a(href="#") 
+                        i(class="fa fa-inbox" aria-hidden="true") Contactame
+        script. 
+            function valorar(n){
+                var form = document.getElementById("formulario")
+                var hidden = document.getElementById("like")
+                hidden.value= n
+                form.submit()
+            }
+        include ../Modules/footer.pug

@@ -1,19 +1,26 @@
-multer = require("multer"),
+'use strict'
+    const multer = require("multer"),
         path = require("path"),
-        { v4:uuidv4 } = require("uuid"),
-        storage = multer.diskStorage(
-            {
-                destination: path.join(__dirname, '../storage'),
-                filename: (req, file, cb)=>{
-                    cb(null, uuidv4() + '.' + file.mimetype.split('/')[1])
-                }
-            }
-        ),
-        mimetype = ['image/png','image/jpeg','image/jpg','image/webp','image/gif'],
-        upload = multer(
-            { 
-                storage: storage,
-            }
-        )
+        minetypes = ['image/png','image/jpeg','image/jpg','image/webp','image/gif'],
+        { v4:uuidv4 }= require("uuid")
 
-module.exports = { upload, mimetype }
+module.exports = { 
+    minetypes,
+
+    multerDefaultStorage(route="private"){
+        const storage = multer.diskStorage({
+                            destination: path.join(__dirname, `../storage/${route}`),
+                            filename: (req, file, cb)=>{
+                                cb(null, uuidv4() + '.' + file.mimetype.split('/')[1])
+                            }
+                        }),
+        upload = multer(
+                    { 
+                        storage: storage,
+                    }
+                )
+
+        return upload
+    }
+
+}

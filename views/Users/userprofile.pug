@@ -1,0 +1,55 @@
+doctype html
+html(lang="es-ES")
+    include ../Modules/head.pug
+    body
+        include ../Modules/nav.pug
+
+            section(class="user-profile-container")
+                section(class="user-info-container")
+                    table 
+                        tr 
+                            th(colspan="2") Perfil del Usuario
+                        tr 
+                            th(colspan="2")
+                                hr
+                        tr 
+                            if(user.avatar)
+                                th(colspan="2") 
+                                    img(src=`/avatars/${user.avatar}`)
+                            else 
+                                th(colspan="2") 
+                                    img(src="/img/image-preview.png")
+                        tr 
+                            if(user.nickname)
+                                th(colspan="2")= user.nombre + " " + user.apellido + ` (${user.nickname}) `
+                            else 
+                                th(colspan="2")= user.nombre + " " + user.apellido
+                        tr 
+                            th(colspan="2")
+                                hr
+                        tr 
+                            th(colspan="2")= user.email
+                        tr 
+                            th(colspan="2")= dateFormat((user.fecha_nacimiento) )
+                        tr 
+                            if(user.ciudad)
+                                td= user.ciudad 
+                            else 
+                                td= "ciudad" 
+                            if(user.telefono)
+                                td= user.telefono
+                            else 
+                                td= "telefono"                    
+                        tr 
+                            if(user.intereses)
+                                td(colspan="2")= user.intereses 
+                            else 
+                                td(colspan="2")= "intereses"
+                        tr 
+                            th(colspan="2")
+                                hr
+                        tr 
+                            th(colspan="2") 
+                                a(href="/update/profile") 
+                                    button(type='button') Editar
+        include ../Modules/footer.pug
