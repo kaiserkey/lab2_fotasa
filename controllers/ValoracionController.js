@@ -8,20 +8,21 @@ module.exports = {
             const NewLike = await dbConfig.Valoracion.create(
                 {
                     estrellas: req.body.estrellas,
-                    usuario_id: req.body.usuario_id,
+                    usuario_id: req.user.id,
                     publicacion_id: req.body.publicacion_id
                 }
             )
 
             if(NewLike){
-                res.json(NewLike)
+                res.redirect( `/post/show/${req.body.publicacion_id}` )
             }else{
-                res.json({error:'No se pudo guardar los datos'})
+                console.log("Error no se pueden guardar los datos")
             }
         } catch (err) {
-            res.json(err)
+            console.log(err)
         }
     },
+
     async update(req,res){
         try {
             const UpdateLike = await dbConfig.Valoracion.update(
@@ -44,6 +45,7 @@ module.exports = {
             res.json(err)
         }
     },
+    
     async delete(req,res){
         try {
             const DeleteLike = await dbConfig.Valoracion.destroy(

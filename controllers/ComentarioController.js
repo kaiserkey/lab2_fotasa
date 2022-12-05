@@ -9,13 +9,13 @@ module.exports = {
                 {
                     descripcion: req.body.descripcion,
                     fecha: Date.now(),
-                    usuario_id: req.body.usuario_id,
+                    usuario_id: req.user.id,
                     publicacion_id: req.body.publicacion_id
                 }
             )
 
             if(NewComment){
-                res.json(NewComment)
+                res.redirect(`/post/show/${req.body.publicacion_id}`)
             }else{
                 res.json({error:'No se pudo guardar los datos'})
             }

@@ -21,8 +21,8 @@ module.exports = {
         }
     },
 
-    transformDates(date=null){
-
+    transformDates(fecha=null){
+        let date = new Date(fecha)
         if(date){
             const addZero = (num)=>
             {

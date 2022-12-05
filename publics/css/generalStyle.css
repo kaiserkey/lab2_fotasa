@@ -770,8 +770,8 @@ hr {
 }
 
 .container-view-post .container-view-image img{
-    width: 100%;
-    height: 100%;
+    width: 98%;
+    height: 390px;
     padding-right: 10px;
     border-bottom-left-radius: 20px;
     border: none;
@@ -779,9 +779,13 @@ hr {
 
 .container-view-image {
     position: relative;
+    float: left;
 }
 
 .container-view-post .valorar{
+    font-weight: 700;
+    font-size: 25px;
+    color: gold;
     font-size: 20px;
     position: absolute;
     top: 50%;
@@ -795,6 +799,28 @@ hr {
     margin-right: 5px;
 }
 
+.container-view-post .valorado{
+    font-weight: 700;
+    font-size: 25px;
+    color: gold;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.container-view-post .valorado i{
+    color: gold;
+    margin-right: 5px;
+}
+
+
+.container-view-post .valorado i:hover{
+    font-size: 30px;
+    padding: 10px;
+}
+
 .container-view-post .container-view-image:hover .valorar i{
     opacity: 1;
 }
@@ -806,23 +832,27 @@ hr {
 }
 
 .container-view-post .valoraciones{
-    color: black;
+    font-size: 20px;
+    padding: 2px;
+    color: yellow;
     position: absolute;
     bottom: 8px;
     right: 16px;
 }
 
+.container-view-post .valoraciones i{
+    padding: 10px;
+    letter-spacing: 2px;
+}
+
 .container-view-post .copyright{
-    color: black;
+    color: yellow;
     position: absolute;
     bottom: 8px;
     left: 16px;
+    padding: 10px;
+    font-size: 20px;
 }
-
-.container-view-post .container-view-image{
-    float: left;
-}
-
 .container-view-post .container-view-info{
     margin: 10px auto;
 }
@@ -833,7 +863,20 @@ hr {
 }
 
 .container-view-post .container-view-info .align-comment{
+    float: left;
+    display: block;
     text-align: left;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 12px;
+    border: 1px black solid;
+    width: 35%;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
 }
 
 .container-view-post .container-view-info h3{
@@ -908,6 +951,13 @@ hr {
     content: "";
     clear: left;
     display: table;
+}
+
+.container-view-post .container-view-info .descripcion{
+    text-align: right;
+    padding: 10px;
+    font-weight: 600;
+    font-size: 25px;
 }
 
 /* Estilos de actualizar datos del usuario */

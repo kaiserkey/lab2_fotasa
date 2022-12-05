@@ -1,74 +1,193 @@
 'use strict'
 
 const { dbConfig } = require("../database/db_con"),
-        { transformOnlyDate } = require('../helppers/helppers'),
+        { transformOnlyDate, transformDates } = require('../helppers/helppers'),
         fs = require("fs"),
-        path = require('path')
+        path = require('path'),
+        { Op, where } = require( "sequelize" ),
+        Sequelize = require("sequelize")
+
 
 module.exports = {
 
-    async showAll(req,res){
+    newView(req,res){ 
+        res.render( 'Posts/newpost' , { user:req.user }) 
+    },
+
+    async showPublic(req, res){
         try {
-            const ViewPosts = await dbConfig.Publicacion.findAll(
+            let fecha = new Date()
+            fecha.setMonth(fecha.getMonth() - 12)
+            const SearchPosts = await dbConfig.Publicacion.findAll(
                 {
+                    attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('usuario_id')) ,'usuario_id']],
+                    limit: 35,
+                    order: Sequelize.literal('rand()'),
                     where: {
-                        usuario_id: req.params.id
-                    },
-                    include: ['imagen', 'etiquetas', 'comentarios', 'likes']
+                        fecha_creacion: {
+                            [Op.gt]: fecha
+                        } 
+                    }
                 }
-            )
+            ),
+            ViewPosts = []
+
+            for (let i = 0; i < SearchPosts.length; i++) {
+                const Post = await dbConfig.Publicacion.findOne(
+                    {
+                        include: [
+                            {
+                                association: 'imagen',
+                                where: {
+                                    estado: 'publico'
+                                }
+                            }, 
+                            {
+                                association: 'likes'
+                            }],
+                        where: {
+                            usuario_id: SearchPosts[i].usuario_id,
+                        }
+                    }
+                )
+                if(Post){
+                    ViewPosts.push( Post )
+                }
+            }
             
             if(ViewPosts){
-                res.json(ViewPosts)
+                res.render( 'Public/home', { posts: ViewPosts })
+            }else{
+                console.log("Error al cargar los datos")
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
+    },
+
+    async showAll(req,res){
+        try {
+            let fecha = new Date()
+            fecha.setMonth(fecha.getMonth() - 12)
+            const SearchPosts = await dbConfig.Publicacion.findAll(
+                {
+                    attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('usuario_id')) ,'usuario_id']],
+                    limit: 35,
+                    order: Sequelize.literal('rand()'),
+                    where: {
+                        fecha_creacion: {
+                            [Op.gt]: fecha
+                        } 
+                    }
+                }
+            ),
+            ViewPosts = []
+
+            for (let i = 0; i < SearchPosts.length; i++) {
+                const Post = await dbConfig.Publicacion.findOne(
+                    {
+                        include: ['imagen', 'likes'],
+                        where: {
+                            usuario_id: SearchPosts[i].usuario_id
+                        }
+                    }
+                )
+                ViewPosts.push( Post )
+            }
+            
+            if(ViewPosts){
+                res.render( 'Users/index', { user: req.user,  posts: ViewPosts})
             }else{
                 res.json(ViewPosts)
             }
         } catch (err) {
             res.json(err)
+        }
+    },
+
+    async showOnlyPublic(req,res){
+        try {
+            const SearchPost = await dbConfig.Publicacion.findOne(
+                {
+                    where: {
+                        id: req.params.id
+                    },
+                    include: ['imagen', 'etiquetas', 'comentarios', 'likes']
+                }
+            )
+
+            const sum = await dbConfig.Valoracion.sum('estrellas', { where: { publicacion_id:  req.params.id} })
+            const count = await dbConfig.Valoracion.count({ where: { publicacion_id:  req.params.id} })
+
+            
+            if(SearchPost){
+                res.render( 'Posts/viewpublic', { post:SearchPost,  sum: sum>0 ? sum : 0, count:count, 
+                                                format: transformDates, comment: SearchPost.comentarios.length>0 ? true : false})
+            }else{
+                console.log("Error al cargar los datos")
+            }
+        } catch (err) {
+            console.log(err)
         }
     },
 
     async showOne(req,res){
         try {
-            const ViewPosts = await dbConfig.Publicacion.findOne(
+            const SearchPost = await dbConfig.Publicacion.findOne(
                 {
                     where: {
-                        id: req.query.id,
-                        usuario_id: req.query.usuario_id
+                        id: req.params.id
                     },
                     include: ['imagen', 'etiquetas', 'comentarios', 'likes']
                 }
+            ),
+            SearchLike = await dbConfig.Valoracion.findOne(
+                {
+                    where: {
+                        usuario_id: req.user.id,
+                        publicacion_id: req.params.id
+                    }
+                }
             )
+
+            const sum = await dbConfig.Valoracion.sum('estrellas', { where: { publicacion_id:  req.params.id} })
+            const count = await dbConfig.Valoracion.count({ where: { publicacion_id:  req.params.id} })
+
             
-            if(ViewPosts){
-                res.json(ViewPosts)
+            if(SearchPost){
+                res.render( 'Posts/viewpost', { user:req.user, post:SearchPost,  sum: sum>0 ? sum : 0, count:count, 
+                                                format: transformDates, comment: SearchPost.comentarios.length>0 ? true : false,
+                                                myLike: SearchLike })
             }else{
-                res.json(ViewPosts)
+                console.log("Error al cargar los datos")
             }
         } catch (err) {
-            res.json(err)
+            console.log(err)
         }
     },
 
     async create(req,res){
         try {
+
             const ImageCreate = await dbConfig.Imagen.create(
                 {
-                    nombre: req.body.nombre,
+                    nombre: req.file.filename,
                     estado: req.body.estado,
-                    formato: req.body.formato,
-                    size: req.body.size,
+                    formato: req.file.mimetype,
+                    size: req.file.size,
                     resolucion: req.body.resolucion,
                     derechos: req.body.derechos,
-                    usuario_id: req.body.usuario_id
+                    usuario_id: req.user.id
                 }
             ),
             PostCreate = await dbConfig.Publicacion.create( 
                 {
                     titulo: req.body.titulo,
+                    descripcion: req.body.descripcion,
                     categoria: req.body.categoria,
-                    fecha_creacion: req.body.fecha_creacion,
-                    usuario_id: req.body.usuario_id,
+                    fecha_creacion: Date.now(),
+                    usuario_id: req.user.id,
                     imagen_id: ImageCreate.id,
                     etiquetas: [{ nombre: req.body.etiquetas }]
                 },
@@ -79,13 +198,13 @@ module.exports = {
             
 
             if(PostCreate){
-                res.json(PostCreate)
+                res.redirect( '/home' )
             }else{
-                res.json({error:"Error al cargar los datos"})
+                console.log("Error al cargar los datos")
             }
 
         } catch (err) {
-            res.json(err)
+            console.log(err)
         }
     },
 
