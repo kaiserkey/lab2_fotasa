@@ -156,7 +156,7 @@ module.exports = {
 
             
             if(SearchPost){
-                res.render( 'Posts/viewpost', { user:req.user, post:SearchPost,  sum: sum>0 ? sum : 0, count:count, 
+                res.render( 'Posts/viewpost2', { user:req.user, post:SearchPost,  sum: sum>0 ? sum : 0, count:count, 
                                                 format: transformDates, comment: SearchPost.comentarios.length>0 ? true : false,
                                                 myLike: SearchLike })
             }else{

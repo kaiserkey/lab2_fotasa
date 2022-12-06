@@ -1,0 +1,30 @@
+doctype html
+html(lang="es-ES")
+    include ../Modules/head.pug
+    body
+        include ../Modules/nav.pug
+        
+        section(class="view-post-container")
+            table
+                tr 
+                    th(colspan="5")
+                        h1= post.titulo
+                tr 
+                    td(rowspan="5")
+                        div(class="container-view-image")
+                            if(post.imagen.estado=='publico')
+                                img(src=`/public/${post.imagen.nombre}`)
+                            if(post.imagen.estado=='protegido')
+                                img(src=`/private/${post.imagen.nombre}`)
+
+
+        
+
+            script. 
+                function valorar(n){
+                    var form = document.getElementById("formulario")
+                    var hidden = document.getElementById("estrellas")
+                    hidden.value= n
+                    form.submit()
+                }
+        include ../Modules/footer.pug

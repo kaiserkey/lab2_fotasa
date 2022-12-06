@@ -745,8 +745,12 @@ hr {
 }
 
 /* estilos para ver una publicacion */
+/* TODO: Crear nueva vista para las publicaciones pero con tablas */
+/* .view-post-container{
 
-.container-view-post {
+} */
+
+/* .container-view-post {
     margin: 5% auto;
     width: 80%;
     height: min-content;
@@ -958,7 +962,7 @@ hr {
     padding: 10px;
     font-weight: 600;
     font-size: 25px;
-}
+} */
 
 /* Estilos de actualizar datos del usuario */
 
