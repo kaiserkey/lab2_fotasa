@@ -1,7 +1,7 @@
 'use strict'
 
 const { dbConfig } = require("../database/db_con"),
-        { transformOnlyDate } = require('../helppers/helppers'),
+        { transformOnlyDate, onlyDateUpdateUser } = require('../helppers/helppers'),
         bcrypt = require( 'bcrypt' ),
         fs = require("fs"),
         path = require('path'),
@@ -11,7 +11,7 @@ module.exports = {
 
     profile(req,res){ res.render( 'Users/userprofile' , { user:req.user, dateFormat: transformOnlyDate }) },
 
-    updateProfile(req,res){ res.render( 'Users/updateuser' , { user:req.user }) },
+    updateProfile(req,res){ res.render( 'Users/updateuser' , { user:req.user, dateFormat: onlyDateUpdateUser }) },
 
     async show(req,res){
         try {
@@ -35,7 +35,6 @@ module.exports = {
 
     async update(req,res){
         try {
-
             //si el password es el mismo
             if(bcrypt.compareSync( req.body.password, req.user.password )){
                 req.body.password = req.user.password
@@ -43,8 +42,10 @@ module.exports = {
                 req.body.password = bcrypt.hashSync( req.body.password, parseInt( authConf.round ) )
             }
             
-            fs.unlinkSync(path.join(__dirname, `../storage/avatars/${req.user.avatar}`))
-
+            if(req.user.avatar){
+                fs.unlinkSync(path.join(__dirname, `../storage/avatars/${req.user.avatar}`))
+            }
+            
             const user = await dbConfig.Usuario.update(
                 {
                     nombre: req.body.nombre,

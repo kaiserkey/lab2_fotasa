@@ -24,7 +24,7 @@ router.get( '/', ifSigned )
         //usuario
         .get( '/user/profile',routes_protect, UsuarioController.profile)
         .get( '/update/profile', routes_protect, UsuarioController.updateProfile)
-        .post( '/update/profile',routes_protect, multerDefaultStorage('avatars').single('avatar'), UsuarioController.update)
+        .post( '/update/profile',routes_protect, multerDefaultStorage('avatars').single('avatar') , UsuarioController.update)
         .get('/user/logout', UsuarioController.logout)
 
         //publicaciones

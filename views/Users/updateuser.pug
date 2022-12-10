@@ -35,7 +35,7 @@ html(lang="es-ES")
                         input(type="text" name="nickname" id="nickname" placeholder="Un Apodo Corto" required)
                     label(for="fecha_nacimiento")
                         b Fecha de Nacimiento 
-                    input(type="date" name="fecha_nacimiento" id="fecha_nacimiento" value=`${user.fecha_nacimiento}` required)
+                    input(type="date" name="fecha_nacimiento" id="fecha_nacimiento" value=`${dateFormat(user.fecha_nacimiento)}` required)
                     label(for="email")
                         b Email 
                     input(type="email" name="email" id="email" placeholder="myemail@gmail.com" value=`${user.email}` required)
