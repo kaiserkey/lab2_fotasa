@@ -757,32 +757,69 @@ hr {
     -o-border-radius: 20px;
     box-shadow:10px 10px 10px rgba(0, 0, 0, 0.2);
     position: relative;
+    padding: 0;
+}
+
+.view-post-container .container-post-user span{
+    vertical-align: middle;
+}
+
+.view-post-container .container-post-user{
     padding: 10px;
+    border-bottom: 2px solid gray;
+}
+
+.view-post-container .container-post-user img{
+    width: 35px;
+    height: 35px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    margin-right: 5px;
+    vertical-align: middle;
 }
 
 .view-post-container h1{
     text-align: center;
     padding-bottom: 15px;
+    display: inline;
+    
 }
 
 
 .view-post-container table{
+    height: 100%;
+    width: 90%;
     margin: auto;
     border-collapse: collapse;
     position: relative;
+    border: none;
+    
 }
 
-.view-post-container img{
-    border-radius: 20px;
+table tr{
+    height: 50px;
+}
+
+table td{
+    vertical-align: middle;
+}
+
+.view-post-container .container-view-image img{
     width: 100%;
-    height: 390px;
-    padding-right: 10px;
+    height: 450px;
+    margin-right: 10px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.view-post-container .container-view-image{
+    background-color: gray;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
     border-bottom-left-radius: 20px;
-    border: none;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    -ms-border-radius: 20px;
-    -o-border-radius: 20px;
 }
 
 .container-view-image {
@@ -799,6 +836,10 @@ hr {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
 }
 
 .view-post-container .valorar i{
@@ -816,6 +857,10 @@ hr {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
 }
 
 .view-post-container .valorado i{
@@ -839,13 +884,17 @@ hr {
     padding: 10px;
 }
 
+.view-post-container #image-container-info{
+    font-weight: 600;
+    text-align: right;
+    border: none;
+    padding: 2px;
+}
+
 .view-post-container  .valoraciones{
     font-size: 20px;
     padding: 2px;
     color: yellow;
-    position: absolute;
-    bottom: 8px;
-    right: 16px;
 }
 
 .view-post-container  .valoraciones i{
@@ -855,9 +904,6 @@ hr {
 
 .view-post-container  .copyright{
     color: yellow;
-    position: absolute;
-    bottom: 8px;
-    left: 16px;
     padding: 10px;
     font-size: 20px;
 }
@@ -881,6 +927,16 @@ hr {
     
 }
 
+#button-comment{
+    height: 45px;
+    width: fit-content;
+    vertical-align: middle;
+}
+
+.view-post-container .container-view-info input[type=text]{
+    vertical-align: middle;
+}
+
 .view-post-container .container-view-info .align-items{
     text-align: right;
 }
@@ -901,18 +957,25 @@ hr {
 }
 
 .view-post-container .container-view-info .align-comment{
-    text-align: left;
+    text-align: center;
     margin-left: 10px;
     margin-bottom: 10px;
     padding: 10px;
     font-size: 12px;
     border: 1px black solid;
+    width: 280px;
+    word-break:break-all;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.view-post-container #scroll-comment{
     width: 100%;
-    border-radius: 20px;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    -ms-border-radius: 20px;
-    -o-border-radius: 20px;
+    height: 150px;
+    overflow-y: scroll;
+    line-height: 1em;
+    text-align: right;
+    padding: 5px;
 }
 
 .view-post-container .container-view-info h3{
@@ -935,6 +998,7 @@ hr {
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     border: none;
+    vertical-align: middle;
 }
 
 .view-post-container .container-view-info div{
@@ -949,9 +1013,30 @@ hr {
     font-size: 25px;
 }
 
-.view-post-container .align-comment-fecha {
-    font-size: 12px;
+.view-post-container .align-comment-info {
+    font-size: 10px;
+    padding: 3px;
+    display: inline;
+    vertical-align: middle;
     font-weight: 600;
+}
+
+.view-post-container .container-comment-user-info{
+    border: 1px solid black;
+    padding: 5px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    margin-left: 10px;
+}
+
+.view-post-container .align-comment-info img{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
 }
 
 

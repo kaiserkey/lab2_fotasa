@@ -39,16 +39,12 @@ router.get( '/', ifSigned )
         .get( '/post/show/:id', routes_protect, PublicacionController.showOne)
 
         .post( '/post/update', routes_protect, PublicacionController.update)
-        .get( '/post/delete', routes_protect, PublicacionController.delete)
+        .post( '/post/delete', routes_protect, PublicacionController.delete)
         //comnetarios
         .post( '/post/comment',routes_protect, ComentarioController.create)
-        //.post( '/comment/update', ComentarioController.update)
-        //.get( '/comment/delete/:id', ComentarioController.delete)
 
         //valoraciones
         .post( '/like', routes_protect, ValoracionController.create)
-        //.post( '/like/update', ValoracionController.update)
-        //.get( '/like/delete/:id', ValoracionController.delete)
 
         //middleware errores
         .use( err404 )

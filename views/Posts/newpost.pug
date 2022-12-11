@@ -52,31 +52,29 @@ html(lang="es-ES")
 
             function changeDerechos(){
                 var derechos = document.getElementById("derechos").value
-                var formulario = document.getElementById("formulario")
 
                 if(derechos == "copyleft"){
                     document.forms['formulario'].action = '/upload/public'
-                    document.getElementById("estado").options.item(0).selected = 'selected';
+                    document.getElementById("estado").options.item(0).selected = 'selected'
                 }
 
                 if(derechos == "copyright"){
                     document.forms['formulario'].action = '/upload/protected'
-                    document.getElementById("estado").options.item(1).selected = 'selected';
+                    document.getElementById("estado").options.item(1).selected = 'selected'
                 }
             }
 
             function cambiar(){
                 var estado = document.getElementById("estado").value
-                var formulario = document.getElementById("formulario")
 
                 if(estado == "publico"){
                     document.forms['formulario'].action = '/upload/public'
-                    document.getElementById("derechos").options.item(1).selected = 'selected';
+                    document.getElementById("derechos").options.item(1).selected = 'selected'
                 }
 
                 if(estado == "protegido"){
                     document.forms['formulario'].action = '/upload/protected'
-                    document.getElementById("derechos").options.item(0).selected = 'selected';
+                    document.getElementById("derechos").options.item(0).selected = 'selected'
                 }
             }
 

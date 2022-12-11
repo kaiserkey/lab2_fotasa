@@ -21,48 +21,5 @@ module.exports = {
         } catch (err) {
             console.log(err)
         }
-    },
-
-    async update(req,res){
-        try {
-            const UpdateLike = await dbConfig.Valoracion.update(
-                {
-                    estrellas: req.body.estrellas
-                },
-                {
-                    where: {
-                        id: req.body.id
-                    }
-                }
-            )
-
-            if(UpdateLike){
-                res.json(UpdateLike)
-            }else{
-                res.json({error:'No se pudo guardar los datos'})
-            }
-        } catch (err) {
-            res.json(err)
-        }
-    },
-    
-    async delete(req,res){
-        try {
-            const DeleteLike = await dbConfig.Valoracion.destroy(
-                {
-                    where:{
-                        id: req.params.id
-                    }
-                }
-            )
-
-            if(DeleteLike){
-                res.json(DeleteLike)
-            }else{
-                res.json({error:'No se pudo guardar los datos'})
-            }
-        } catch (err) {
-            res.json(err)
-        }
     }
 }

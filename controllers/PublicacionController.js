@@ -44,7 +44,8 @@ module.exports = {
                             }, 
                             {
                                 association: 'likes'
-                            }],
+                            }
+                        ],
                         where: {
                             usuario_id: SearchPosts[i].usuario_id,
                         }
@@ -113,7 +114,15 @@ module.exports = {
                     where: {
                         id: req.params.id
                     },
-                    include: ['imagen', 'etiquetas', 'comentarios', 'likes']
+                    include: ['imagen', 'etiquetas', 'usuarios', 'likes']
+                }
+            ),
+            Comments = await dbConfig.Comentario.findAll(
+                {
+                    include: ['usuario'],
+                    where: {
+                        publicacion_id: req.params.id
+                    }
                 }
             )
 
@@ -123,7 +132,8 @@ module.exports = {
             
             if(SearchPost){
                 res.render( 'Posts/viewpublic', { post:SearchPost,  sum: sum>0 ? sum : 0, count:count, 
-                                                format: transformDates, comment: SearchPost.comentarios.length>0 ? true : false})
+                                                format: transformDates, comment: Comments.length>0 ? true : false,
+                                                comentarios: Comments})
             }else{
                 console.log("Error al cargar los datos")
             }
@@ -139,7 +149,7 @@ module.exports = {
                     where: {
                         id: req.params.id
                     },
-                    include: ['imagen', 'etiquetas', 'comentarios', 'likes']
+                    include: ['imagen', 'etiquetas', 'usuarios']
                 }
             ),
             SearchLike = await dbConfig.Valoracion.findOne(
@@ -149,16 +159,25 @@ module.exports = {
                         publicacion_id: req.params.id
                     }
                 }
+            ),
+            Comments = await dbConfig.Comentario.findAll(
+                {
+                    include: ['usuario'],
+                    where: {
+                        publicacion_id: req.params.id
+                    }
+                }
             )
+            
 
             const sum = await dbConfig.Valoracion.sum('estrellas', { where: { publicacion_id:  req.params.id} })
             const count = await dbConfig.Valoracion.count({ where: { publicacion_id:  req.params.id} })
 
             
             if(SearchPost){
-                res.render( 'Posts/viewpost2', { user:req.user, post:SearchPost,  sum: sum>0 ? sum : 0, count:count, 
-                                                format: transformDates, comment: SearchPost.comentarios.length>0 ? true : false,
-                                                myLike: SearchLike })
+                res.render( 'Posts/viewpost', { user:req.user, post:SearchPost,  sum: sum>0 ? sum : 0, count:count, 
+                                                format: transformDates, comment: Comments.length>0 ? true : false,
+                                                myLike: SearchLike, comentarios: Comments })
             }else{
                 console.log("Error al cargar los datos")
             }
@@ -253,15 +272,28 @@ module.exports = {
 
     async delete(req,res){
         try {
-            const DeleteOnCascade = await dbConfig.Imagen.destroy({ where: { id: req.params.id } }) 
+            const DeleteImageFile = await dbConfig.Imagen.findOne({ where: { id: req.body.imagen_id } }) 
+
+            if(DeleteImageFile.estado == 'publico'){
+                fs.unlinkSync(path.join(__dirname, `../storage/public/${req.user.avatar}`))
+            }
+
+            if(DeleteImageFile.estado == 'protegido'){
+                fs.unlinkSync(path.join(__dirname, `../storage/private/${req.user.avatar}`))
+            }
             
+
+            const DeleteOnCascade = await dbConfig.Imagen.destroy({ where: { id: req.body.imagen_id } }) 
+            
+            
+
             if( DeleteOnCascade ){
-                res.json( { DeleteOnCascade } )
+                res.redirect( '/home' )
             }else{
-                res.json( { error: "No se pudo eliminar" } )
+                console.log( "No se pudo eliminar" )
             }
         } catch (err) {
-            res.json(err)
+            console.log(err)
         }
     }
 

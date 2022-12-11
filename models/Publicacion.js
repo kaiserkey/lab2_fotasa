@@ -9,7 +9,7 @@ module.exports = ( sequelize, DataTypes ) =>
     
     static associate( models ) {
       Publicacion.belongsTo( models.Imagen, {as: 'imagen', foreignKey: 'imagen_id' , onDelete: 'CASCADE' , onUpdate: 'CASCADE'})
-      Publicacion.belongsTo( models.Usuario )
+      Publicacion.belongsTo( models.Usuario, { as: 'usuarios', foreignKey: 'usuario_id' })
       Publicacion.hasOne( models.Valoracion, { as: 'likes', foreignKey: 'publicacion_id' , onDelete: 'CASCADE'} )
       Publicacion.hasMany( models.Comentario, { as: 'comentarios', foreignKey: 'publicacion_id' , onDelete: 'CASCADE'} )
       Publicacion.hasMany( models.Etiqueta, { as: 'etiquetas', foreignKey: 'publicacion_id' , onDelete: 'CASCADE'} )

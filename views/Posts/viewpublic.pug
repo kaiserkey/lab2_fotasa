@@ -4,71 +4,62 @@ html(lang="es-ES")
     body
         include ../Modules/nav.pug
         
-        div(class="container-view-post")
-            h1= post.titulo
-            div(class="container-view-image")
-                if(post.imagen.estado=='publico')
-                    img(src=`/public/${post.imagen.nombre}`)
-                if(post.imagen.estado=='protegido')
-                    img(src=`/private/${post.imagen.nombre}`)
-                form(action="/like" method="POST" id="formulario")
-                    input(type="hidden" name="publicacion_id" id="publicacion_id" value=`${post.id}`)
-                    input(type="hidden" name="estrellas" id="estrellas" value="")
-                if(myLike)
-                    if(myLike.publicacion_id == post.id)
-                        span(class="valorado")
-                            i(class="fa fa-star" aria-hidden="true")
-                            span= myLike.estrellas 
-                else 
-                    span(class="valorar")
-                        i(class="fa fa-star" aria-hidden="true" onclick=`valorar(1)`)
-                        i(class="fa fa-star" aria-hidden="true" onclick=`valorar(2)`)
-                        i(class="fa fa-star" aria-hidden="true" onclick=`valorar(3)`)
-                        i(class="fa fa-star" aria-hidden="true" onclick=`valorar(4)`)
-                        i(class="fa fa-star" aria-hidden="true" onclick=`valorar(5)`)
-                span(class="valoraciones")
-                    if(sum>0 && count>0)
-                        i(class="fa fa-star" aria-hidden="true")= sum/count + " Estrellas"
-                    else 
-                        i(class="fa fa-star" aria-hidden="true") 0 Estrellas
-                    
-                span(class="copyright")= post.imagen.derechos
-            div(class="container-view-info")
-                div(class="align-items")
-                    if(post.usuario_id == user.id)
-                        form(action="/post/delete" method="POST" )
-                            input(type="hidden" name="publicacion_id" id="publicacion_id" value=`${post.id}`)
-                            button(type='submit') Eliminar
-                        form(action="/post/update" method="POST")
-                            input(type="hidden" name="publicacion_id" id="publicacion_id" value=`${post.id}`)
-                            button(type='submit') Actualizar
-                        hr
-                div(class="descripcion")= post.descripcion 
+        section(class="view-post-container")
+            form(action="/like" method="POST" id="formulario")
+                input(type="hidden" name="publicacion_id" id="publicacion_id" value=`${post.id}`)
+                input(type="hidden" name="estrellas" id="estrellas" value="")
+            table
+                tr 
+                    td(colspan="2")
+                        div(class="container-post-user")
+                            img(src=`/avatars/${post.usuarios.avatar}` alt="alt")
+                            span= post.usuarios.nickname ? "Creado Por " + post.usuarios.nickname : "Creado Por" + post.usuarios.nombre + " " + post.usuarios.apellido
+                tr 
+                    th(colspan="2")
+                        h1= post.titulo
+                tr 
+                    td(rowspan="5")
+                        div(class="container-view-image")
+                            if(post.imagen.estado=='publico')
+                                img(src=`/public/${post.imagen.nombre}`)
+                            if(post.imagen.estado=='protegido')
+                                img(src=`/private/${post.imagen.nombre}`)
+                            
+                            div(id="image-container-info")
+                                span(class="copyright")= post.imagen.derechos
+                                span(class="valoraciones")
+                                    if(sum>0 && count>0)
+                                        i(class="fa fa-star" aria-hidden="true")= sum/count + "/5 Estrellas"
+                                    else 
+                                        i(class="fa fa-star" aria-hidden="true") 0/5 Estrellas
+                                    
+                tr 
+                    td 
+                        div(class="container-view-info")
+                            div(class="descripcion")= post.descripcion 
+                tr 
+                    td 
+                        div(class="container-view-info")
+                            h3 Comentarios
+                tr
+                    td
+                        div(class="container-view-info")
+                            div(id="scroll-comment") 
+                                if(comment)
+                                    for val in comentarios
+                                        div(class="container-comment-user-info")
+                                            div(class="align-comment-info") 
+                                                img(src=`/avatars/${val.usuario.avatar}`)
+                                            div(class="align-comment-info")= val.usuario.nickname ?  val.usuario.nickname : val.usuario.nombre
+                                            div(class="align-comment-info")= format(val.fecha) 
+                                        div(class="align-comment")= val.descripcion 
+                                else 
+                                    div(class="align-comment") No hay comentarios...
+                tr 
+                    td 
+                        div(class="container-view-info")
+                            div(class="post-contact")
+                                a(href="#") 
+                                    i(class="fa fa-inbox" aria-hidden="true") Contactame
 
-                h3 Comentarios
-                if(comment)
-                    for val in post.comentarios 
-                        div(class="align-comment-fecha")= format(val.fecha) 
-                        div(class="align-comment")= val.descripcion 
-                else 
-                    div(class="align-comment") No hay comentarios...
-                    div(class="align-comment") No hay comentarios...
-                
-                div(class="align-items")
-                    form(action="/post/comment" method="POST")
-                        input(type="hidden" name="publicacion_id" id="publicacion_id" value=`${post.id}`)
-                        i(class="fa fa-commenting" aria-hidden="true")
-                        input(type="text" name="descripcion" id="descripcion" placeholder="Agregar un cometario")
-                        button(type='submit') Comentar
-                hr
-                div(class="post-contact")
-                    a(href="#") 
-                        i(class="fa fa-inbox" aria-hidden="true") Contactame
-            script. 
-                function valorar(n){
-                    var form = document.getElementById("formulario")
-                    var hidden = document.getElementById("estrellas")
-                    hidden.value= n
-                    form.submit()
-                }
         include ../Modules/footer.pug
