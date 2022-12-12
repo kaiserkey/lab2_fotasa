@@ -9,15 +9,21 @@ div(class="navbar")
     else 
         navbar(class="user-nav")
             a(href="/")
-                img(src="/img/default-avatar.jpg" alt="alt")
+                if(user.avatar)
+                    img(src=`/avatars/${user.avatar}`)
+                else 
+                    img(src="/img/default-avatar.jpg")
                 span= user.nickname || user.nombre
             a(href="/post/new")
                 i(class="fa fa-fw fa-pencil-square-o" aria-hidden="true") Crear
+            a(href="/post/user")
+                i(class="fa fa-picture-o" aria-hidden="true") Mis Publicaciones
             div(class="search-nav-container")
                 form(action="/search" method="POST") 
                     input(type="text" name="search" placeholder="Buscar..")
                     button(type='submit')
                         i(class="fa fa-search")
+            
             a#userRight(href="/user/logout") 
                 i(class="fa fa-times-circle-o" aria-hidden="true") Salir
             a#userRight(href="/user/profile") 

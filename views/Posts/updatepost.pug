@@ -5,46 +5,135 @@ html(lang="es-ES")
         include ../Modules/nav.pug
         
         div(class="container-post")
-            form(action="/upload/post" method="post" enctype="multipart/form-data")
-                if(user)
-                    input(type="hidden" name="usuario_id" value=`${user.id}`)
-                input(type="text" name="titulo" id="titulo" placeholder="Agrega un titulo" required)
+            form(action="/post/update" method="POST")
+                input(type="text" name="titulo" id="titulo" value=`${post.titulo}` placeholder="Agrega un titulo" required)
                 div(class="estado")
                     h3 Tipo de Publicacion
-                    select(name="estado" required)
+                    select(name="estado" id="estado" onchange="cambiar()" required)
+                        if(post.imagen.estado == "publico")
                             option(value="publico" selected) Publica
+                        else 
+                            option(value="publico") Publica
+                        if(post.imagen.estado == "protegido")
+                            option(value="protegido" selected) Protegida
+                        else 
                             option(value="protegido") Protegida
                 hr
-                
                 div(id="image-container")
-                    img(src="/img/image-preview.png" id="image-preview")
+                    if(post.imagen.estado == "publico")
+                        img(src=`/public/${post.imagen.nombre}` id="image-preview")
+                    if(post.imagen.estado == "protegido")
+                        img(src=`/private/${post.imagen.nombre}` id="image-preview")
+                    input(type="hidden" name="imagen_id" id="iamgen_id" value=`${post.imagen.id}`)
                 hr
-                input(type="text" name="descripcion" id="descripcion" placeholder="Dinos de que trata tu publicacion" required)
+                input(type="text" name="descripcion" id="descripcion" value=`${post.descripcion}` placeholder="Dinos de que trata tu publicacion" required)
                 div(id="imgage-copy")
                     h3 derechos de autor
-                    select(name="derechos" required)
-                        option(value="-" selected) Derechos
+                    select(name="derechos" id="derechos" onchange="changeDerechos()" required)
+                        if(post.imagen.derechos == "copyright")
+                            option(value="copyright" selected) Copyright
+                        else 
+                            option(value="copyright") Copyright
+                        
+                        if(post.imagen.derechos == "copyleft")
+                            option(value="copyleft" selected) Copileft
+                        else 
+                            option(value="copyleft") Copileft
                 hr
                 div(id="imgage-tag")
                     h3 Categorias
-                    select(name="categorias" required)
-                        option(value="-" selected) Categoria
+                    select(name="categoria" id="categoria" required)
+                        if(post.categoria == "ninguno")
+                            option(value="ninguno" selected) ninguna
+                        else 
+                            option(value="ninguno" ) ninguna
+                        
+                        if(post.categoria == "colegio")
+                            option(value="colegio" selected) colegio
+                        else 
+                            option(value="colegio") colegio
+
+                        if(post.categoria == "juguetes")
+                            option(value="juguetes" selected) juguetes
+                        else 
+                            option(value="juguetes") juguetes
+
+                        if(post.categoria == "animales")
+                            option(value="animales" selected) animales
+                        else 
+                            option(value="animales") animales
+
+                        if(post.categoria == "alimentos")
+                            option(value="alimentos" selected) alimentos
+                        else 
+                            option(value="alimentos") alimentos
+
+                        if(post.categoria == "ropa")
+                            option(value="ropa" selected) ropa
+                        else 
+                            option(value="ropa") ropa
+
+                        if(post.categoria == "frutas")
+                            option(value="frutas" selected) frutas
+                        else 
+                            option(value="frutas") frutas
+
+                        if(post.categoria == "flores")
+                            option(value="flores" selected) flores
+                        else 
+                            option(value="flores") flores
+
+                        if(post.categoria == "transportes")
+                            option(value="transportes" selected) transportes
+                        else 
+                            option(value="transportes") transportes
+
+                        if(post.categoria == "oficios")
+                            option(value="oficios" selected) oficios
+                        else 
+                            option(value="oficios") oficios
+
+                        if(post.categoria == "partes del cuerpo")
+                            option(value="partes del cuerpo" selected) partes del cuerpo
+                        else 
+                            option(value="partes del cuerpo") partes del cuerpo
+
+                        if(post.categoria == "muebles")
+                            option(value="muebles" selected) muebles
+                        else 
+                            option(value="muebles") muebles
+
+                        if(post.categoria == "instrumentos musicales")
+                            option(value="instrumentos musicales" selected) instrumentos musicales
+                        else 
+                            option(value="instrumentos musicales") instrumentos musicales
+
                 hr
-                input(type="text" name="etiquetas" id="etiquetas" placeholder="TAGS: clima, lugares, transportes, viajes" required)
-                
-                button(type='submit') Guardar 
-
+                input(type="text" name="etiquetas" id="etiquetas" value=`${post.etiquetas.nombre}` placeholder="TAGS: clima, lugares, transportes, viajes" required)
+                input(type="hidden" name="publicacion_id" id="publicacion_id" value=`${post.id}`)
+                button(type='submit') Actualizar 
         script. 
-            var preview = (event)=>{
-                var file_image = new FileReader()
-                var preview_img = document.getElementById('image-preview')
+            function changeDerechos(){
+                var derechos = document.getElementById("derechos").value
 
-                file_image.onload = ()=>{
-                    if(file_image.readyState == 2){
-                        preview_img.src = file_image.result
-                    }
+                if(derechos == "copyleft"){
+                    document.getElementById("estado").options.item(0).selected = 'selected'
                 }
 
-                file_image.readAsDataURL(event.target.files[0])
+                if(derechos == "copyright"){
+                    document.getElementById("estado").options.item(1).selected = 'selected'
+                }
+            }
+
+            function cambiar(){
+                var estado = document.getElementById("estado").value
+
+                if(estado == "publico"){
+                    document.getElementById("derechos").options.item(1).selected = 'selected'
+                }
+
+                if(estado == "protegido"){
+                    document.getElementById("derechos").options.item(0).selected = 'selected'
+                }
             }
         include ../Modules/footer.pug

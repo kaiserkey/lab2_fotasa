@@ -12,7 +12,7 @@ module.exports = ( sequelize, DataTypes ) =>
       Publicacion.belongsTo( models.Usuario, { as: 'usuarios', foreignKey: 'usuario_id' })
       Publicacion.hasOne( models.Valoracion, { as: 'likes', foreignKey: 'publicacion_id' , onDelete: 'CASCADE'} )
       Publicacion.hasMany( models.Comentario, { as: 'comentarios', foreignKey: 'publicacion_id' , onDelete: 'CASCADE'} )
-      Publicacion.hasMany( models.Etiqueta, { as: 'etiquetas', foreignKey: 'publicacion_id' , onDelete: 'CASCADE'} )
+      Publicacion.hasOne( models.Etiqueta, { as: 'etiquetas', foreignKey: 'publicacion_id' , onDelete: 'CASCADE'} )
     }
   }
   

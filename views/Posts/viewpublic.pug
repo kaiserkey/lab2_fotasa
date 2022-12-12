@@ -12,7 +12,10 @@ html(lang="es-ES")
                 tr 
                     td(colspan="2")
                         div(class="container-post-user")
-                            img(src=`/avatars/${post.usuarios.avatar}` alt="alt")
+                            if(post.usuarios.avatar)
+                                img(src=`/avatars/${post.usuarios.avatar}`)
+                            else 
+                                img(src=`/img/not_img.webp`)
                             span= post.usuarios.nickname ? "Creado Por " + post.usuarios.nickname : "Creado Por" + post.usuarios.nombre + " " + post.usuarios.apellido
                 tr 
                     th(colspan="2")
@@ -29,7 +32,7 @@ html(lang="es-ES")
                                 span(class="copyright")= post.imagen.derechos
                                 span(class="valoraciones")
                                     if(sum>0 && count>0)
-                                        i(class="fa fa-star" aria-hidden="true")= sum/count + "/5 Estrellas"
+                                        i(class="fa fa-star" aria-hidden="true")= (sum/count).toFixed(1) + "/5 Estrellas"
                                     else 
                                         i(class="fa fa-star" aria-hidden="true") 0/5 Estrellas
                                     
@@ -49,7 +52,10 @@ html(lang="es-ES")
                                     for val in comentarios
                                         div(class="container-comment-user-info")
                                             div(class="align-comment-info") 
-                                                img(src=`/avatars/${val.usuario.avatar}`)
+                                                if(val.usuario.avatar)
+                                                    img(src=`/avatars/${val.usuario.avatar}`)
+                                                else 
+                                                    img(src=`/img/not_img.webp`)
                                             div(class="align-comment-info")= val.usuario.nickname ?  val.usuario.nickname : val.usuario.nombre
                                             div(class="align-comment-info")= format(val.fecha) 
                                         div(class="align-comment")= val.descripcion 

@@ -5,13 +5,34 @@ const { dbConfig } = require("../database/db_con"),
         fs = require("fs"),
         path = require('path'),
         { Op, where } = require( "sequelize" ),
-        Sequelize = require("sequelize")
+        Sequelize = require("sequelize"),
+        { rename } = require('fs/promises'),
+        watermark = require('jimp-watermark')
 
 
 module.exports = {
 
     newView(req,res){ 
         res.render( 'Posts/newpost' , { user:req.user }) 
+    },
+
+    async showUserPosts(req,res){
+        try {
+            const SearchPosts = await dbConfig.Publicacion.findAll(
+                {
+                    include: ['imagen'],
+                    where: {
+                        usuario_id: req.user.id
+                    }
+                }
+            )
+            
+            if(SearchPosts){
+                res.render( 'Users/userposts', { user: req.user,  posts: SearchPosts})
+            }
+        } catch (err) {
+            console.log(err)
+        }
     },
 
     async showPublic(req, res){
@@ -188,6 +209,17 @@ module.exports = {
 
     async create(req,res){
         try {
+            /* if(req.body.estado == "publico"){
+                const options = {
+                    'ratio': 0.6,
+                    'opacity': 0.7,
+                    'dstPath': `../storage/public/${req.file.filename}`
+                }
+    
+                watermark.addWatermark(`../storage/public/${req.file.filename}`, 
+                                        `../publics/img/watermark.jpg`, 
+                                        options)
+            } */
 
             const ImageCreate = await dbConfig.Imagen.create(
                 {
@@ -227,27 +259,81 @@ module.exports = {
         }
     },
 
+    async viewUpdate(req,res){
+        try {
+            const SearchPost = await dbConfig.Publicacion.findOne(
+                {
+                    where: {
+                        id: req.params.id
+                    },
+                    include: ['imagen', 'etiquetas']
+                }
+            )
+            
+            res.render('Posts/updatepost', { user: req.user, post: SearchPost })
+        } catch (err) {
+            console.log(err)
+        }
+    },
+
     async update(req,res){
         try {
+            const Image = await dbConfig.Imagen.findOne(
+                {
+                    where: {
+                        id: req.body.imagen_id
+                    }
+                }
+            )
+
+            if(req.body.estado != Image.estado){
+                if(req.body.estado == "publico"){
+                    const from = path.join(__dirname, `../storage/private/${Image.nombre}`)
+                    const to = path.join(__dirname, `../storage/public/${Image.nombre}`)
+
+                    try {
+                        await rename(from, to);
+                        console.log(`Moved ${from} to ${to}`);
+                    } catch (err) {
+                        console.log(err);
+                    }
+                }
+
+                if(req.body.estado == "protegido"){
+                    const from = path.join(__dirname, `../storage/public/${Image.nombre}`)
+                    const to = path.join(__dirname, `../storage/private/${Image.nombre}`)
+
+                    try {
+                        await rename(from, to);
+                        console.log(`Moved ${from} to ${to}`);
+                    } catch (err) {
+                        console.log(err);
+                    }
+                }
+            }
+
             const PostUpdate = await dbConfig.Publicacion.update(
                 {
                     titulo: req.body.titulo,
-                    categoria: req.body.categoria
+                    categoria: req.body.categoria,
+                    descripcion: req.body.descripcion
                 },
                 {
                     where: {
-                        id: req.body.id
+                        id: req.body.publicacion_id
                     }
                 }
             ),
-            id = await dbConfig.Publicacion.findOne(
+            TagUpdate = await dbConfig.Etiqueta.update(
                 {
-                    attributes: ['imagen_id'],
+                    nombre: req.body.etiquetas
+                },
+                {
                     where: {
-                        id: req.body.id
+                        publicacion_id: req.body.publicacion_id
                     }
                 }
-            ),
+            ), 
             ImageUpdate = await dbConfig.Imagen.update(
                 {
                     estado: req.body.estado,
@@ -255,37 +341,33 @@ module.exports = {
                 },
                 {
                     where: {
-                        id: id.imagen_id
+                        id: req.body.imagen_id
                     }
                 }
             )
+            
 
-            if(PostUpdate && ImageUpdate){
-                res.json({ PostUpdate, ImageUpdate })
-            }else{
-                res.json({error: "No se cargaron los datos"})
+            if(PostUpdate && TagUpdate && ImageUpdate){
+                res.redirect(`/post/show/${req.body.publicacion_id}`)
             }
         } catch (err) {
-            res.json(err)
+            console.log(err)
         }
     },
 
     async delete(req,res){
         try {
             const DeleteImageFile = await dbConfig.Imagen.findOne({ where: { id: req.body.imagen_id } }) 
-
+            
             if(DeleteImageFile.estado == 'publico'){
-                fs.unlinkSync(path.join(__dirname, `../storage/public/${req.user.avatar}`))
+                fs.unlinkSync(path.join(__dirname, `../storage/public/${DeleteImageFile.nombre}`))
             }
 
             if(DeleteImageFile.estado == 'protegido'){
-                fs.unlinkSync(path.join(__dirname, `../storage/private/${req.user.avatar}`))
+                fs.unlinkSync(path.join(__dirname, `../storage/private/${DeleteImageFile.nombre}`))
             }
-            
 
             const DeleteOnCascade = await dbConfig.Imagen.destroy({ where: { id: req.body.imagen_id } }) 
-            
-            
 
             if( DeleteOnCascade ){
                 res.redirect( '/home' )

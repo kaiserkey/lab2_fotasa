@@ -28,18 +28,19 @@ router.get( '/', ifSigned )
         .get('/user/logout', UsuarioController.logout)
 
         //publicaciones
+        .get( '/post/user', routes_protect, PublicacionController.showUserPosts)
         .get( '/public', PublicacionController.showPublic)
         .get( '/public/show/:id', PublicacionController.showOnlyPublic)
         .get( '/post/new', routes_protect, PublicacionController.newView)
         .get( '/post/view',routes_protect, (req,res)=>{ res.render('Posts/viewpost', { user: req.user }) })
-        .post( '/post/update',routes_protect, (req,res)=>{ res.render('Posts/updatepost', { user: req.user }) })
         .post( '/upload/public', routes_protect, multerDefaultStorage('public').single('image'), PublicacionController.create)
         .post( '/upload/protected', routes_protect, multerDefaultStorage('private').single('image'), PublicacionController.create)
         .get( '/home', routes_protect,  PublicacionController.showAll)
         .get( '/post/show/:id', routes_protect, PublicacionController.showOne)
-
+        .get( '/post/update/:id',routes_protect, PublicacionController.viewUpdate)
         .post( '/post/update', routes_protect, PublicacionController.update)
         .post( '/post/delete', routes_protect, PublicacionController.delete)
+
         //comnetarios
         .post( '/post/comment',routes_protect, ComentarioController.create)
 
