@@ -4,7 +4,7 @@ const { dbConfig } = require("../database/db_con"),
         { transformOnlyDate, transformDates } = require('../helppers/helppers'),
         fs = require("fs"),
         path = require('path'),
-        { Op, where } = require( "sequelize" ),
+        { Op } = require( "sequelize" ),
         Sequelize = require("sequelize"),
         { rename } = require('fs/promises'),
         watermark = require('jimp-watermark')
@@ -90,11 +90,13 @@ module.exports = {
 
     async showAll(req,res){
         try {
+
             let fecha = new Date()
             fecha.setMonth(fecha.getMonth() - 12)
+
             const SearchPosts = await dbConfig.Publicacion.findAll(
                 {
-                    attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('usuario_id')) ,'usuario_id']],
+                    attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('usuario_id')),'usuario_id']],
                     limit: 35,
                     order: Sequelize.literal('rand()'),
                     where: {
@@ -109,7 +111,7 @@ module.exports = {
             for (let i = 0; i < SearchPosts.length; i++) {
                 const Post = await dbConfig.Publicacion.findOne(
                     {
-                        include: ['imagen', 'likes'],
+                        include: ['imagen'],
                         where: {
                             usuario_id: SearchPosts[i].usuario_id
                         }
@@ -120,11 +122,9 @@ module.exports = {
             
             if(ViewPosts){
                 res.render( 'Users/index', { user: req.user,  posts: ViewPosts})
-            }else{
-                res.json(ViewPosts)
             }
         } catch (err) {
-            res.json(err)
+            console.log(err)
         }
     },
 
@@ -209,17 +209,18 @@ module.exports = {
 
     async create(req,res){
         try {
-            /* if(req.body.estado == "publico"){
+            //TODO: terminar de hacer  la marca de agua
+            if(req.body.estado == "publico"){
                 const options = {
                     'ratio': 0.6,
-                    'opacity': 0.7,
-                    'dstPath': `../storage/public/${req.file.filename}`
+                    'opacity': 0.6,
+                    'dstPath': `./storage/public/${req.file.filename}`
                 }
     
-                watermark.addWatermark(`../storage/public/${req.file.filename}`, 
-                                        `../publics/img/watermark.jpg`, 
+                watermark.addWatermark(path.join(__dirname, `../storage/public/${req.file.filename}`), 
+                                        path.join(__dirname, `../publics/img/watermark.png`), 
                                         options)
-            } */
+            }
 
             const ImageCreate = await dbConfig.Imagen.create(
                 {
