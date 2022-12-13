@@ -209,7 +209,6 @@ module.exports = {
 
     async create(req,res){
         try {
-            //TODO: terminar de hacer  la marca de agua
             if(req.body.estado == "publico"){
                 const options = {
                     'ratio': 0.6,
@@ -220,6 +219,30 @@ module.exports = {
                 watermark.addWatermark(path.join(__dirname, `../storage/public/${req.file.filename}`), 
                                         path.join(__dirname, `../publics/img/watermark.png`), 
                                         options)
+            }
+            if(req.body.estado == "protegido" && req.user.watermark){
+                if(req.user.watermark.tipo == "imagen"){
+                    const options = {
+                        'ratio': 0.6,
+                        'opacity': 0.6,
+                        'dstPath': `./storage/private/${req.file.filename}`
+                    }
+        
+                    watermark.addWatermark(path.join(__dirname, `../storage/private/${req.file.filename}`), 
+                                            path.join(__dirname, `../storage/watermarks/${req.user.watermark.marca}`), 
+                                            options)
+                }
+                if(req.user.watermark.tipo == "texto"){
+                    const options = {
+                        'text': req.user.watermark.marca,
+                        'textSize': 8,
+                        'dstPath': `./storage/private/${req.file.filename}`
+                    }
+        
+                    watermark.addTextWatermark(path.join(__dirname, `../storage/private/${req.file.filename}`), 
+                                            options)
+
+                }
             }
 
             const ImageCreate = await dbConfig.Imagen.create(

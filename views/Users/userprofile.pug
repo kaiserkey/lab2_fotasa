@@ -56,7 +56,7 @@ html(lang="es-ES")
                     hr
                     br
                     if(!user.watermark)
-                        form(action="/watermark/texto" method="post" id="formulario") 
+                        form(action="/watermark/texto" method="POST" id="formulario") 
                             table
                                     tr 
                                         th(colspan="2") Marca de Agua Personalizada
@@ -77,20 +77,29 @@ html(lang="es-ES")
                                             div(id="boton")
                                                 button(type="submit") Guardar
                     else 
-                        if(user.watermark.tipo == "imagen")
-                            table 
-                                tr
-                                    th Mi marca de agua
-                                tr 
-                                    th 
-                                        img(src=`/watermarks/${user.watermark.marca}`)
-                        if(user.watermark.tipo == "texto")
-                            table
-                                tr
-                                    th Mi marca de agua
-                                tr
-                                    th
-                                        h3= user.watermark.marca
+                        form(action="/watermark/delete" method="POST") 
+                            if(user.watermark.tipo == "imagen")
+                                table 
+                                    tr
+                                        th Mi marca de agua
+                                    tr 
+                                        th 
+                                            img(src=`/watermarks/${user.watermark.marca}`)
+                                    tr
+                                        td 
+                                            input(type="hidden" name="watermark_id" id="watermark_id" value=`${user.watermark.id}`)
+                                            button(type="submit") Borrar
+                            if(user.watermark.tipo == "texto")
+                                table
+                                    tr
+                                        th Mi marca de agua
+                                    tr
+                                        th
+                                            h3= user.watermark.marca
+                                    tr
+                                        td 
+                                            input(type="hidden" name="watermark_id" id="watermark_id" value=`${user.watermark.id}`)
+                                            button(type="submit") Borrar
 
 
         script. 

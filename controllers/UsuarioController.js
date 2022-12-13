@@ -9,15 +9,14 @@ const { dbConfig } = require("../database/db_con"),
 
 module.exports = {
 
-    profile(req,res){ res.render( 'Users/userprofile' , { user:req.user, dateFormat: transformOnlyDate }) },
+    profile(req,res){ 
+        res.render( 'Users/userprofile' , { user:req.user, dateFormat: transformOnlyDate }) 
+    },
 
     updateProfile(req,res){ res.render( 'Users/updateuser' , { user:req.user, dateFormat: onlyDateUpdateUser }) },
     
     async addWatermark(req,res){
         try {
-
-            
-
             const Watermark = await dbConfig.Watermark.create(
                 {
                     tipo: req.body.tipo,
@@ -26,6 +25,26 @@ module.exports = {
                 }
             )
             if(Watermark){
+                res.redirect( '/user/profile' )
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    },
+
+    async deleteWatermark(req,res){
+        try {
+            if(req.user.watermark.tipo == "imagen"){
+                fs.unlinkSync(path.join(__dirname, `../storage/watermarks/${req.user.watermark.marca}`))
+            }
+            const DeleteWatermark = await dbConfig.Watermark.destroy(
+                {
+                    where: {
+                        id: req.body.watermark_id
+                    }
+                }
+            )
+            if(DeleteWatermark){
                 res.redirect( '/user/profile' )
             }
         } catch (err) {

@@ -28,6 +28,7 @@ router.get( '/', ifSigned )
         .get('/user/logout', UsuarioController.logout)
         .post('/watermark/imagen', routes_protect, multerDefaultStorage('watermarks').single('watermark'), UsuarioController.addWatermark)
         .post('/watermark/texto', routes_protect, UsuarioController.addWatermark)
+        .post('/watermark/delete', routes_protect, UsuarioController.deleteWatermark)
 
         //publicaciones
         .get( '/post/user', routes_protect, PublicacionController.showUserPosts)
