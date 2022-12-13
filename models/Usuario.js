@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) =>
       Usuario.hasMany(models.Comentario, { as:'comentarios', foreignKey: 'usuario_id' })
       Usuario.hasOne(models.Valoracion, { as: 'valoraciones', foreignKey: 'usuario_id' })
       Usuario.hasMany(models.Publicacion, { as: 'publicaciones', foreignKey: 'usuario_id' })
+      Usuario.hasOne(models.Watermark, { as:'watermark', foreignKey: 'usuario_id' })
     }
   }
 

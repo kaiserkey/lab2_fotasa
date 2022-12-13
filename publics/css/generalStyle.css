@@ -1159,19 +1159,15 @@ table td{
 
 /* Estilos del perfil del usuario */
 
+.user-profile-container {
+    margin: 100px auto;
+}
+
 .user-profile-container .user-info-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     font-weight: 700;
-    height: min-content;
+    height: 80%;
     text-align: center;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    width: 40%;
+    width: 45%;
     margin: auto;
     background-color: #ffffff;
     padding: 20px;
@@ -1181,6 +1177,63 @@ table td{
     -ms-border-radius: 20px;
     -o-border-radius: 20px;
     letter-spacing: 2px;
+}
+
+.user-profile-container .user-info-container select{
+    padding: 4px;
+    font-weight: 700;
+    font-family: 'Roboto Mono', monospace;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+.user-profile-container .user-info-container input[type=text]{
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+
+.user-profile-container .user-info-container input[type=file]{
+    opacity: 0;
+    width: 0;
+    height: 0;
+    appearance: none;
+    background-color: initial;
+    cursor: default;
+    align-items: baseline;
+    color: inherit;
+    text-overflow: ellipsis;
+    white-space: pre;
+    text-align: start !important;
+    padding: initial;
+    border: initial;
+    overflow: hidden !important;
+    text-rendering: auto;
+    text-shadow: none;
+    display: inline;
+}
+
+.user-profile-container .user-info-container #imageLavel{
+    color: #ffffff;
+    padding: 10px;
+    background-color: #e60023;
+    font-weight: 700;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    cursor: pointer;
+}
+
+.user-profile-container .user-info-container #imageLavel:hover{
+    cursor: pointer;
+    background-color: #e6003aad;
 }
 
 .user-profile-container table img{

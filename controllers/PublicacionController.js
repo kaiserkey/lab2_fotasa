@@ -214,7 +214,7 @@ module.exports = {
                 const options = {
                     'ratio': 0.6,
                     'opacity': 0.6,
-                    'dstPath': `./storage/public/${req.file.filename}`
+                    'dstPath': `./storage/publics_watermarks/${req.file.filename}`
                 }
     
                 watermark.addWatermark(path.join(__dirname, `../storage/public/${req.file.filename}`), 
@@ -362,6 +362,7 @@ module.exports = {
             
             if(DeleteImageFile.estado == 'publico'){
                 fs.unlinkSync(path.join(__dirname, `../storage/public/${DeleteImageFile.nombre}`))
+                fs.unlinkSync(path.join(__dirname, `../storage/publics_watermarks/${DeleteImageFile.nombre}`))
             }
 
             if(DeleteImageFile.estado == 'protegido'){

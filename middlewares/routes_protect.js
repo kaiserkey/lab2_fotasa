@@ -17,7 +17,7 @@ module.exports = (req, res, next)=>{
                         where: {
                             id: decoded.user.id
                         },
-                        include: ['imagenes', 'comentarios', 'valoraciones', 'publicaciones']
+                        include: ['valoraciones', 'watermark']
                     } ).then(
                         user => {
                             req.user = user

@@ -12,6 +12,26 @@ module.exports = {
     profile(req,res){ res.render( 'Users/userprofile' , { user:req.user, dateFormat: transformOnlyDate }) },
 
     updateProfile(req,res){ res.render( 'Users/updateuser' , { user:req.user, dateFormat: onlyDateUpdateUser }) },
+    
+    async addWatermark(req,res){
+        try {
+
+            
+
+            const Watermark = await dbConfig.Watermark.create(
+                {
+                    tipo: req.body.tipo,
+                    marca: req.file ? req.file.filename : req.body.watermark,
+                    usuario_id: req.user.id
+                }
+            )
+            if(Watermark){
+                res.redirect( '/user/profile' )
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    },
 
     async show(req,res){
         try {
@@ -79,7 +99,5 @@ module.exports = {
     logout(req,res){
         res.clearCookie('x-access-token')
         res.redirect('/')
-    }
-
-    
+    },
 }

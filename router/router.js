@@ -26,6 +26,8 @@ router.get( '/', ifSigned )
         .get( '/update/profile', routes_protect, UsuarioController.updateProfile)
         .post( '/update/profile',routes_protect, multerDefaultStorage('avatars').single('avatar') , UsuarioController.update)
         .get('/user/logout', UsuarioController.logout)
+        .post('/watermark/imagen', routes_protect, multerDefaultStorage('watermarks').single('watermark'), UsuarioController.addWatermark)
+        .post('/watermark/texto', routes_protect, UsuarioController.addWatermark)
 
         //publicaciones
         .get( '/post/user', routes_protect, PublicacionController.showUserPosts)

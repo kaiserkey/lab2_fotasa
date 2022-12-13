@@ -23,10 +23,7 @@ html(lang="es-ES")
                 tr 
                     td(rowspan="5")
                         div(class="container-view-image")
-                            if(post.imagen.estado=='publico')
-                                img(src=`/public/${post.imagen.nombre}`)
-                            if(post.imagen.estado=='protegido')
-                                img(src=`/private/${post.imagen.nombre}`)
+                            img(src=`/publics_watermarks/${post.imagen.nombre}`)
                             
                             div(id="image-container-info")
                                 span(class="copyright")= post.imagen.derechos

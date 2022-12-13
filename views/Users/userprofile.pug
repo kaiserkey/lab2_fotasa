@@ -52,4 +52,84 @@ html(lang="es-ES")
                             th(colspan="2") 
                                 a(href="/update/profile") 
                                     button(type='button') Editar
-        include ../Modules/footer.pug
+                    br
+                    hr
+                    br
+                    if(!user.watermark)
+                        form(action="/watermark/texto" method="post" id="formulario") 
+                            table
+                                    tr 
+                                        th(colspan="2") Marca de Agua Personalizada
+                                    tr 
+                                        td 
+                                            label(for="tipo") Tipo de Marca 
+                                        td 
+                                            select(name="tipo" id="tipo" onchange="cambiar()" required)
+                                                option(value="imagen") Imagen 
+                                                option(value="texto" selected) Texto 
+                                    tr 
+                                        td(colspan="2")
+                                            div(id="valor")
+                                                label(for="watermark") Introduce Un Texto
+                                                input(type="text" name="watermark" id="watermark" required)
+                                    tr 
+                                        td(colspan="2")
+                                            div(id="boton")
+                                                button(type="submit") Guardar
+                    else 
+                        if(user.watermark.tipo == "imagen")
+                            table 
+                                tr
+                                    th Mi marca de agua
+                                tr 
+                                    th 
+                                        img(src=`/watermarks/${user.watermark.marca}`)
+                        if(user.watermark.tipo == "texto")
+                            table
+                                tr
+                                    th Mi marca de agua
+                                tr
+                                    th
+                                        h3= user.watermark.marca
+
+
+        script. 
+            function cambiar(){
+                var tipo = document.getElementById("tipo").value
+                var valor = document.getElementById("valor")
+                var boton = document.getElementById("boton")
+
+                if(tipo == "imagen"){
+                    document.forms['formulario'].action = '/watermark/imagen'
+                    document.forms['formulario'].enctype = 'multipart/form-data'
+                    valor.innerHTML =   "<label for='watermark' id='imageLavel'>Cargar una Imagen</label>"
+                                        + "<input type='file' name='watermark' id='watermark' accept='image/png,image/jpeg,image/jpg' onchange='preview(event)' required>"
+                                        + "<br><br><div id='image-container'>"
+                                        +    "<img src='/img/image-preview.png' id='image-preview'>"
+                                        + "</div>"
+                    boton.innerHTML = "<button type='submit'>Guardar</button>"
+                }
+
+                if(tipo == "texto"){
+                    document.forms['formulario'].action = '/watermark/texto'
+                    document.forms['formulario'].enctype = 'application/x-www-form-urlencoded'
+                    valor.innerHTML = "<label for='watermark'>Introduce Un Texto</label>"
+                                        + "<input type='text' name='watermark' id='watermark' required>"
+                    boton.innerHTML = "<button type='submit'>Guardar</button>"
+                }
+            }
+            var preview = (event)=>{
+                var imagen = document.getElementById('image-preview')
+
+                var file_image = new FileReader()
+                var preview_img = document.getElementById('image-preview')
+
+                file_image.onload = ()=>{
+                    if(file_image.readyState == 2){
+                        preview_img.src = file_image.result
+                    }
+                }
+
+                file_image.readAsDataURL(event.target.files[0])
+            }
+    include ../Modules/footer.pug
