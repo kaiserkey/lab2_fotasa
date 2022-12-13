@@ -215,11 +215,12 @@ module.exports = {
                     'opacity': 0.6,
                     'dstPath': `./storage/publics_watermarks/${req.file.filename}`
                 }
-    
+
                 watermark.addWatermark(path.join(__dirname, `../storage/public/${req.file.filename}`), 
                                         path.join(__dirname, `../publics/img/watermark.png`), 
                                         options)
             }
+
             if(req.body.estado == "protegido" && req.user.watermark){
                 if(req.user.watermark.tipo == "imagen"){
                     const options = {
@@ -241,7 +242,6 @@ module.exports = {
         
                     watermark.addTextWatermark(path.join(__dirname, `../storage/private/${req.file.filename}`), 
                                             options)
-
                 }
             }
 

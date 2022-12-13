@@ -13,7 +13,9 @@ module.exports = {
         res.render( 'Users/userprofile' , { user:req.user, dateFormat: transformOnlyDate }) 
     },
 
-    updateProfile(req,res){ res.render( 'Users/updateuser' , { user:req.user, dateFormat: onlyDateUpdateUser }) },
+    updateProfile(req,res){ 
+        res.render( 'Users/updateuser' , { user:req.user, dateFormat: onlyDateUpdateUser }) 
+    },
     
     async addWatermark(req,res){
         try {
@@ -49,26 +51,6 @@ module.exports = {
             }
         } catch (err) {
             console.log(err)
-        }
-    },
-
-    async show(req,res){
-        try {
-            const user = await dbConfig.Usuario.findOne(
-                {
-                    where: {
-                        id: req.params.id
-                    }
-                }
-            )
-            
-            if(user){
-                res.json(user)
-            }else{
-                res.json(user)
-            }
-        } catch (err) {
-            res.json(err)
         }
     },
 
