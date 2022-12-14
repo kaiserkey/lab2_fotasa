@@ -980,7 +980,6 @@ table td{
 
 .view-post-container .container-view-info h3{
     text-align: center;
-    font-size: 18px;
     padding: 10px;
 }
 
@@ -1008,9 +1007,16 @@ table td{
 
 .view-post-container .container-view-info .descripcion{
     text-align: center;
+    margin-top: 5px;
     padding: 10px;
     font-weight: 600;
-    font-size: 25px;
+    font-size: 16px;
+    border: 1px solid gray;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
 }
 
 .view-post-container .align-comment-info {

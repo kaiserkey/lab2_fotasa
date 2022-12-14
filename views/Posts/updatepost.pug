@@ -7,18 +7,6 @@ html(lang="es-ES")
         div(class="container-post")
             form(action="/post/update" method="POST")
                 input(type="text" name="titulo" id="titulo" value=`${post.titulo}` placeholder="Agrega un titulo" required)
-                div(class="estado")
-                    h3 Tipo de Publicacion
-                    select(name="estado" id="estado" onchange="cambiar()" required)
-                        if(post.imagen.estado == "publico")
-                            option(value="publico" selected) Publica
-                        else 
-                            option(value="publico") Publica
-                        if(post.imagen.estado == "protegido")
-                            option(value="protegido" selected) Protegida
-                        else 
-                            option(value="protegido") Protegida
-                hr
                 div(id="image-container")
                     if(post.imagen.estado == "publico")
                         img(src=`/public/${post.imagen.nombre}` id="image-preview")
@@ -27,19 +15,6 @@ html(lang="es-ES")
                     input(type="hidden" name="imagen_id" id="iamgen_id" value=`${post.imagen.id}`)
                 hr
                 input(type="text" name="descripcion" id="descripcion" value=`${post.descripcion}` placeholder="Dinos de que trata tu publicacion" required)
-                div(id="imgage-copy")
-                    h3 derechos de autor
-                    select(name="derechos" id="derechos" onchange="changeDerechos()" required)
-                        if(post.imagen.derechos == "copyright")
-                            option(value="copyright" selected) Copyright
-                        else 
-                            option(value="copyright") Copyright
-                        
-                        if(post.imagen.derechos == "copyleft")
-                            option(value="copyleft" selected) Copileft
-                        else 
-                            option(value="copyleft") Copileft
-                hr
                 div(id="imgage-tag")
                     h3 Categorias
                     select(name="categoria" id="categoria" required)
@@ -112,28 +87,5 @@ html(lang="es-ES")
                 input(type="text" name="etiquetas" id="etiquetas" value=`${post.etiquetas.nombre}` placeholder="TAGS: clima, lugares, transportes, viajes" required)
                 input(type="hidden" name="publicacion_id" id="publicacion_id" value=`${post.id}`)
                 button(type='submit') Actualizar 
-        script. 
-            function changeDerechos(){
-                var derechos = document.getElementById("derechos").value
-
-                if(derechos == "copyleft"){
-                    document.getElementById("estado").options.item(0).selected = 'selected'
-                }
-
-                if(derechos == "copyright"){
-                    document.getElementById("estado").options.item(1).selected = 'selected'
-                }
-            }
-
-            function cambiar(){
-                var estado = document.getElementById("estado").value
-
-                if(estado == "publico"){
-                    document.getElementById("derechos").options.item(1).selected = 'selected'
-                }
-
-                if(estado == "protegido"){
-                    document.getElementById("derechos").options.item(0).selected = 'selected'
-                }
-            }
+        
         include ../Modules/footer.pug

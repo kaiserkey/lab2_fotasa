@@ -21,7 +21,7 @@ html(lang="es-ES")
                     th(colspan="2")
                         h1= post.titulo
                 tr 
-                    td(rowspan="5")
+                    td(rowspan="7")
                         div(class="container-view-image")
                             img(src=`/publics_watermarks/${post.imagen.nombre}`)
                             
@@ -33,6 +33,19 @@ html(lang="es-ES")
                                     else 
                                         i(class="fa fa-star" aria-hidden="true") 0/5 Estrellas
                                     
+                tr 
+                    td 
+                        div(class="container-view-info")
+                            h3 Categoria
+                tr 
+                    td
+                        div(class="container-view-info")
+                            div(class="descripcion")= post.categoria 
+
+                tr 
+                    td 
+                        div(class="container-view-info")
+                            h3 Descripcion
                 tr 
                     td 
                         div(class="container-view-info")
@@ -59,7 +72,7 @@ html(lang="es-ES")
                                 else 
                                     div(class="align-comment") No hay comentarios...
                 tr 
-                    td 
+                    td(colspan="7") 
                         div(class="container-view-info")
                             div(class="post-contact")
                                 a(href="#") 

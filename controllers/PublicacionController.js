@@ -119,6 +119,82 @@ module.exports = {
                 )
                 ViewPosts.push( Post )
             }
+
+            /*
+                const fechaDestacados = new Date()
+                fechaDestacados.setMonth(fechaDestacados.getDay() - 7)
+
+                const listaDestacados = await dbConfig.Publicacion.findAll(
+                    {
+                        attributes: ["id"],
+                        limit: 5,
+                        where: {
+                            Fecha_Creacion: {
+                                [Op.gt]: fechaDestacados
+                            }
+                        }
+                    }
+                ),
+
+                filtro1 = [],
+                filtro2 = [],
+                destacados = []
+
+                for (let a = 0; a < listaDestacados.length; a++)
+                {
+                    const post = await dbConfig.Publicacion.findOne({
+                        include: ["Imagenes","Valoraciones","Usuario","Comentario","Etiquetas"],
+                        where: {
+                            id: listaDestacados[a].id
+                        }
+                    })
+                    filtro1.push(post) 
+                }
+
+                
+
+                for(let b = 0; b < filtro1.length; b++)
+                {
+                    const count = await dbConfig.Valoracion.findAndCountAll({
+                        attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('publicacion_id')), 'publicacion_id']]
+                        ,where: {publicacion_id: filtro1[b].id}
+                        
+                    })
+                    if(count.count >= 3) //Regular la cantidad de valoraciones
+                    {
+                        filtro2.push(count.rows[0].publicacion_id)
+                    }
+                    
+                }
+
+                for (let c = 0; c < filtro2.length; c++)
+                {
+                    const sum = await dbConfig.Valoracion.sum("Estrellas",{
+                        where: {
+                            publicacion_id: filtro2[c]
+                        }
+                    })
+
+                    const count = await dbConfig.Valoracion.count({
+                        where: {
+                            publicacion_id: filtro2[c]
+                        }
+                    })
+
+                    if((sum/count) >= 4)// regular promedio
+                    {
+                        const post = await dbConfig.Publicacion.findOne({
+                            include: ["Imagenes","Valoraciones","Usuario","Comentario","Etiquetas"],
+                            where: {
+                                id: filtro2[c]
+                            }
+                        })
+                        destacados.push(post) 
+                    }
+
+
+                }
+            */
             
             if(ViewPosts){
                 res.render( 'Users/index', { user: req.user,  posts: ViewPosts})
@@ -302,39 +378,6 @@ module.exports = {
 
     async update(req,res){
         try {
-            const Image = await dbConfig.Imagen.findOne(
-                {
-                    where: {
-                        id: req.body.imagen_id
-                    }
-                }
-            )
-
-            if(req.body.estado != Image.estado){
-                if(req.body.estado == "publico"){
-                    const from = path.join(__dirname, `../storage/private/${Image.nombre}`)
-                    const to = path.join(__dirname, `../storage/public/${Image.nombre}`)
-
-                    try {
-                        await rename(from, to);
-                        console.log(`Moved ${from} to ${to}`);
-                    } catch (err) {
-                        console.log(err);
-                    }
-                }
-
-                if(req.body.estado == "protegido"){
-                    const from = path.join(__dirname, `../storage/public/${Image.nombre}`)
-                    const to = path.join(__dirname, `../storage/private/${Image.nombre}`)
-
-                    try {
-                        await rename(from, to);
-                        console.log(`Moved ${from} to ${to}`);
-                    } catch (err) {
-                        console.log(err);
-                    }
-                }
-            }
 
             const PostUpdate = await dbConfig.Publicacion.update(
                 {

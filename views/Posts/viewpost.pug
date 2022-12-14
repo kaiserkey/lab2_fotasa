@@ -21,7 +21,7 @@ html(lang="es-ES")
                     th(colspan="2")
                         h1= post.titulo
                 tr 
-                    td(rowspan="7")
+                    td(rowspan="9")
                         div(class="container-view-image")
                             if(post.imagen.estado=='publico')
                                 img(src=`/public/${post.imagen.nombre}`)
@@ -60,6 +60,19 @@ html(lang="es-ES")
                 tr 
                     td 
                         div(class="container-view-info")
+                            h3 Categoria
+                tr 
+                    td
+                        div(class="container-view-info")
+                            div(class="descripcion")= post.categoria 
+
+                tr 
+                    td 
+                        div(class="container-view-info")
+                            h3 Descripcion
+                tr 
+                    td 
+                        div(class="container-view-info")
                             div(class="descripcion")= post.descripcion 
                 tr 
                     td 
@@ -92,7 +105,7 @@ html(lang="es-ES")
                                     input(type="text" name="descripcion" id="descripcion" placeholder="Agregar un cometario")
                                     button(type='submit' id="button-comment") Comentar
                 tr 
-                    td 
+                    td(colspan="9") 
                         div(class="container-view-info")
                             div(class="post-contact")
                                 a(href="#") 
