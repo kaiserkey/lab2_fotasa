@@ -3,6 +3,21 @@ html(lang="es-ES")
     include ../Modules/head.pug
     body
         include ../Modules/nav.pug
+        div(class="order-posts")
+            form(action="/post/user" method="GET") 
+                table
+                    tr  
+                        td 
+                            select(name="by")
+                                option(value="titulo") Titulo
+                                option(value="categoria") Categoria 
+                                option(value="fecha_creacion")  Fecha
+                        td 
+                            select(name="order")
+                                option(value="ASC") ASC 
+                                option(value="DESC") DESC
+                        td 
+                            button(type='submit') Submit
         hr(class="posts-line")
         div(class="container")
             div(class="row")

@@ -1,7 +1,7 @@
 'use strict'
 
 const { dbConfig } = require("../database/db_con"),
-        { transformOnlyDate, transformDates } = require('../helppers/helppers'),
+        { transformDates } = require('../helppers/helppers'),
         fs = require("fs"),
         path = require('path'),
         { Op } = require( "sequelize" ),
@@ -65,9 +65,14 @@ module.exports = {
     },
 
     async showUserPosts(req,res){
+        const by = req.query.by || 'titulo',
+                order = req.query.order || 'DESC'//ASC
         try {
             const SearchPosts = await dbConfig.Publicacion.findAll(
                 {
+                    order: [
+                        [by, order],
+                    ],
                     include: ['imagen'],
                     where: {
                         usuario_id: req.user.id
@@ -211,7 +216,9 @@ module.exports = {
                     )
                 }
             }
+
             const destacados = []
+
             for (let i = 0; i < BestPosts.length; i++) {
                 if(destacados.length == 5){
                     break

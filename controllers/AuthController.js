@@ -1,3 +1,5 @@
+'use strict'
+
 const { dbConfig } = require( '../database/db_con' ),
         bcrypt = require( 'bcrypt' ),
         jwt = require( 'jsonwebtoken' ),

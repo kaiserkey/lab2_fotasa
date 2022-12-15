@@ -1284,3 +1284,42 @@ table td{
     background-color: #e6003aad;
 }
 
+/* Estilos de ver publicaciones del usuario */
+
+.order-posts{
+    margin: 2% auto;
+}
+.order-posts table{
+    margin: auto;
+}
+
+.order-posts select{
+    padding: 5px;
+    font-weight: 600;
+    font-size: 16px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border: solid gray 1px;
+}
+
+.order-posts button{
+    font-family: 'Roboto Mono', monospace;
+    background-color: #e60023;
+    border: none;
+    color: white;
+    padding: 7px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+
+.order-posts button:hover{
+    cursor: pointer;
+    background-color: #e6003aad;
+}
