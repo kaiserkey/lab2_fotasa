@@ -1,0 +1,27 @@
+doctype html
+html(lang="es-ES")
+    include ../Modules/head.pug
+    body
+        include ../Modules/nav.pug
+
+        div(class="container-search")
+            form(action="/public/search" method="GET") 
+                input(type="text" name="search" id="search" placeholder="Buscar.." class="search")
+                button(type='submit')
+                    i(class="fa fa-search")
+
+            hr(class="posts-line")
+            div(class="container")
+                div(class="row")
+                    if(posts.length > 0)
+                        for val in posts
+                            div(class="column")
+                                div(class="container-image")
+                                    img(src=`/publics_watermarks/${val.imagen.nombre}` class="image")
+                                    div(class="middle")
+                                        div(class="text")
+                                                a(href=`/public/show/${val.id}`)
+                                                    button(type='button') Ver Publicacion
+                    else 
+                        h2 No se encontraron resultados
+        include ../Modules/footer.pug

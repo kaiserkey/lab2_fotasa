@@ -1,0 +1,23 @@
+doctype html
+html(lang="es-ES")
+    include ../Modules/head.pug
+    body
+        include ../Modules/nav.pug
+            hr(class="posts-line")
+            div(class="container")
+                div(class="row")
+                    if(posts.length > 0)
+                        for val in posts
+                            div(class="column")
+                                div(class="container-image")
+                                    if(val.imagen.estado == "publico")
+                                        img(src=`/public/${val.imagen.nombre}` class="image")
+                                    if(val.imagen.estado == "protegido")
+                                        img(src=`/private/${val.imagen.nombre}` class="image")
+                                    div(class="middle")
+                                        div(class="text")
+                                                a(href=`/post/show/${val.id}`)
+                                                    button(type='button') Ver Publicacion
+                    else 
+                        h2 No se encontraron resultados
+        include ../Modules/footer.pug

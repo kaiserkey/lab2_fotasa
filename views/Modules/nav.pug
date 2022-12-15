@@ -19,8 +19,8 @@ div(class="navbar")
             a(href="/post/user")
                 i(class="fa fa-picture-o" aria-hidden="true") Mis Publicaciones
             div(class="search-nav-container")
-                form(action="/search" method="POST") 
-                    input(type="text" name="search" placeholder="Buscar..")
+                form(action="/user/search" method="GET") 
+                    input(type="text" name="search" id="search" placeholder="Buscar..")
                     button(type='submit')
                         i(class="fa fa-search")
             

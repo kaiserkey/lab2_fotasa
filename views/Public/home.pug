@@ -4,8 +4,8 @@ html(lang="es-ES")
     body
         include ../Modules/nav.pug
         div(class="container-search")
-            form(action="/search/publics" method="POST") 
-                input(type="text" name="search" placeholder="Buscar.." class="search")
+            form(action="/public/search" method="GET") 
+                input(type="text" name="search" id="search" placeholder="Buscar.." class="search")
                 button(type='submit')
                     i(class="fa fa-search")
         div(class="default-image")

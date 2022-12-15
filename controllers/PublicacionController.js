@@ -6,7 +6,6 @@ const { dbConfig } = require("../database/db_con"),
         path = require('path'),
         { Op } = require( "sequelize" ),
         Sequelize = require("sequelize"),
-        { rename } = require('fs/promises'),
         watermark = require('jimp-watermark')
 
 
@@ -14,6 +13,55 @@ module.exports = {
 
     newView(req,res){ 
         res.render( 'Posts/newpost' , { user:req.user }) 
+    },
+
+    async search(req,res){
+        try {
+            const SearchPosts = await dbConfig.Etiqueta.findAll(
+                {
+                    include:
+                        {
+                            association: 'publicaciones'
+                        },
+                    limit: 35,
+                    order: Sequelize.literal('rand()'),
+                    where: {
+                        nombre: {
+                            [Op.substring]: req.query.search.toLowerCase()
+                        }
+                    }
+                }
+            ),
+            PostsList = []
+
+            for (let i = 0; i < SearchPosts.length; i++) {
+                const Post = await dbConfig.Publicacion.findOne(
+                    {
+                        include: {
+                            association: 'imagen',
+                            where: {
+                                estado: 'publico'
+                            }
+                        },
+                        where: {
+                            id: SearchPosts[i].publicaciones.id
+                        }
+                    }
+                )
+                if(Post!=null){
+                    PostsList.push(
+                        Post
+                    )
+                }
+                
+            }
+            // res.json(PostsList)
+            if(SearchPosts){
+                res.render( 'Public/search', { posts: PostsList } )
+            }
+        } catch (err) {
+            console.log(err)
+        }
     },
 
     async showUserPosts(req,res){
@@ -120,84 +168,66 @@ module.exports = {
                 ViewPosts.push( Post )
             }
 
-            /*
-                const fechaDestacados = new Date()
-                fechaDestacados.setMonth(fechaDestacados.getDay() - 7)
+            //destacados 
+            const ultimaSemana = new Date()
+            ultimaSemana.setMonth(ultimaSemana.getDay() - 7)
 
-                const listaDestacados = await dbConfig.Publicacion.findAll(
-                    {
-                        attributes: ["id"],
-                        limit: 5,
-                        where: {
-                            Fecha_Creacion: {
-                                [Op.gt]: fechaDestacados
-                            }
+            const SearchDistinctPosts = await dbConfig.Publicacion.findAll(
+                {
+                    attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('id')),'id']],
+                    where: {
+                        fecha_creacion: {
+                            [Op.gt]: ultimaSemana
                         }
                     }
-                ),
-
-                filtro1 = [],
-                filtro2 = [],
-                destacados = []
-
-                for (let a = 0; a < listaDestacados.length; a++)
-                {
-                    const post = await dbConfig.Publicacion.findOne({
-                        include: ["Imagenes","Valoraciones","Usuario","Comentario","Etiquetas"],
-                        where: {
-                            id: listaDestacados[a].id
-                        }
-                    })
-                    filtro1.push(post) 
                 }
-
-                
-
-                for(let b = 0; b < filtro1.length; b++)
-                {
-                    const count = await dbConfig.Valoracion.findAndCountAll({
-                        attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('publicacion_id')), 'publicacion_id']]
-                        ,where: {publicacion_id: filtro1[b].id}
-                        
-                    })
-                    if(count.count >= 3) //Regular la cantidad de valoraciones
-                    {
-                        filtro2.push(count.rows[0].publicacion_id)
-                    }
-                    
-                }
-
-                for (let c = 0; c < filtro2.length; c++)
-                {
-                    const sum = await dbConfig.Valoracion.sum("Estrellas",{
-                        where: {
-                            publicacion_id: filtro2[c]
-                        }
-                    })
-
-                    const count = await dbConfig.Valoracion.count({
-                        where: {
-                            publicacion_id: filtro2[c]
-                        }
-                    })
-
-                    if((sum/count) >= 4)// regular promedio
-                    {
-                        const post = await dbConfig.Publicacion.findOne({
-                            include: ["Imagenes","Valoraciones","Usuario","Comentario","Etiquetas"],
-                            where: {
-                                id: filtro2[c]
-                            }
-                        })
-                        destacados.push(post) 
-                    }
-
-
-                }
-            */
+            ),
+            BestPosts = []
             
+            for (let i = 0; i < SearchDistinctPosts.length; i++) {
+                const SearchBestPosts = await dbConfig.Publicacion.findOne(
+                    {
+                        include: [
+                            {
+                                association: 'likes',
+                                where: {
+                                    estrellas: {
+                                        [Op.gte]: 4
+                                    }
+                                }
+                            },
+                            {
+                                association: 'imagen',
+                            }
+                        ],
+                        where: {
+                            id: SearchDistinctPosts[i].id
+                        }
+                    }
+                )
+                if(SearchBestPosts != null){
+                    BestPosts.push(
+                        SearchBestPosts
+                    )
+                }
+            }
+            const destacados = []
+            for (let i = 0; i < BestPosts.length; i++) {
+                if(destacados.length == 5){
+                    break
+                }
+                const sum = await dbConfig.Valoracion.sum('estrellas', { where: { publicacion_id:  BestPosts[i].id} })
+                const count = await dbConfig.Valoracion.count({ where: { publicacion_id:  BestPosts[i].id } })
+
+                if(count>=5 && ((sum/count)>=4)){
+                    destacados.push(
+                        BestPosts[i]
+                    )
+                }
+            }
+
             if(ViewPosts){
-                res.render( 'Users/index', { user: req.user,  posts: ViewPosts})
+                res.render( 'Users/index', { user: req.user,  posts: ViewPosts, best: destacados})
             }
         } catch (err) {
             console.log(err)
@@ -340,7 +370,7 @@ module.exports = {
                     fecha_creacion: Date.now(),
                     usuario_id: req.user.id,
                     imagen_id: ImageCreate.id,
-                    etiquetas: [{ nombre: req.body.etiquetas }]
+                    etiquetas: [{ nombre: req.body.etiquetas.toLowerCase() }]
                 },
                 {
                     include: ['etiquetas']

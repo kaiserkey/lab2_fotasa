@@ -29,10 +29,12 @@ router.get( '/', ifSigned )
         .post('/watermark/imagen', routes_protect, multerDefaultStorage('watermarks').single('watermark'), UsuarioController.addWatermark)
         .post('/watermark/texto', routes_protect, UsuarioController.addWatermark)
         .post('/watermark/delete', routes_protect, UsuarioController.deleteWatermark)
+        .get( '/user/search',  routes_protect, UsuarioController.search)
 
         //publicaciones
         .get( '/post/user', routes_protect, PublicacionController.showUserPosts)
         .get( '/public', PublicacionController.showPublic)
+        .get( '/public/search', PublicacionController.search)
         .get( '/public/show/:id', PublicacionController.showOnlyPublic)
         .get( '/post/new', routes_protect, PublicacionController.newView)
         .get( '/post/view',routes_protect, (req,res)=>{ res.render('Posts/viewpost', { user: req.user }) })

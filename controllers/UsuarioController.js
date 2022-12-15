@@ -5,12 +5,56 @@ const { dbConfig } = require("../database/db_con"),
         bcrypt = require( 'bcrypt' ),
         fs = require("fs"),
         path = require('path'),
-        authConf = require( '../config/auth' )
+        authConf = require( '../config/auth' ),
+        { Op } = require('sequelize'),
+        Sequelize = require('sequelize')
 
 module.exports = {
 
     profile(req,res){ 
         res.render( 'Users/userprofile' , { user:req.user, dateFormat: transformOnlyDate }) 
+    },
+
+    async search(req,res){
+        try {
+            const SearchPosts = await dbConfig.Etiqueta.findAll(
+                {
+                    include:
+                        {
+                            association: 'publicaciones'
+                        },
+                    limit: 35,
+                    order: Sequelize.literal('rand()'),
+                    where: {
+                        nombre: {
+                            [Op.substring]: req.query.search.toLowerCase()
+                        }
+                    }
+                }
+            ),
+            PostsList = []
+
+            for (let i = 0; i < SearchPosts.length; i++) {
+                const Post = await dbConfig.Publicacion.findOne(
+                    {
+                        include: ['imagen'],
+                        where: {
+                            id: SearchPosts[i].publicaciones.id
+                        }
+                    }
+                )
+
+                PostsList.push(
+                    Post
+                )
+            }
+
+            if(SearchPosts){
+                res.render( 'Users/searchposts', { user: req.user, posts: PostsList } )
+            }
+        } catch (err) {
+            console.log(err)
+        }
     },
 
     updateProfile(req,res){ 
