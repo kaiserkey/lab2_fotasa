@@ -6,7 +6,8 @@ const { dbConfig } = require("../database/db_con"),
         path = require('path'),
         { Op } = require( "sequelize" ),
         Sequelize = require("sequelize"),
-        watermark = require('jimp-watermark')
+        watermark = require('jimp-watermark'),
+        { body, validationResult } = require('express-validator')
 
 
 module.exports = {
@@ -321,6 +322,94 @@ module.exports = {
     },
 
     async create(req,res){
+
+        const errors = validationResult( req )
+
+        if ( !errors.isEmpty(  ) ) {
+            if( errors.array(  )[0].param=='titulo' ){
+                if(req.body.estado == 'publico'){
+                    if(req.file){
+                        fs.unlinkSync(path.join(__dirname, `../storage/public/${req.file.filename}`))
+                    }
+                }
+                if(req.body.estado == 'protegido'){
+                    if(req.file){
+                        fs.unlinkSync(path.join(__dirname, `../storage/private/${req.file.filename}`))
+                    }
+                }
+                return res.render('Posts/newpost', { user: req.user, err: 'titulo' })
+            }
+            if( errors.array(  )[0].param=='estado' ){
+                if(req.body.estado == 'publico'){
+                    if(req.file){
+                        fs.unlinkSync(path.join(__dirname, `../storage/public/${req.file.filename}`))
+                    }
+                }
+                if(req.body.estado == 'protegido'){
+                    if(req.file){
+                        fs.unlinkSync(path.join(__dirname, `../storage/private/${req.file.filename}`))
+                    }
+                }
+                return res.render('Posts/newpost', { user: req.user, err: 'estado' })
+            }
+            if( errors.array(  )[0].param=='descripcion' ){
+                if(req.body.estado == 'publico'){
+                    if(req.file){
+                        fs.unlinkSync(path.join(__dirname, `../storage/public/${req.file.filename}`))
+                    }
+                }
+                if(req.body.estado == 'protegido'){
+                    if(req.file){
+                        fs.unlinkSync(path.join(__dirname, `../storage/private/${req.file.filename}`))
+                    }
+                }
+                return res.render('Posts/newpost', { user: req.user, err: 'descripcion' })
+            }
+            if( errors.array(  )[0].param=='descripcion' ){
+                if(req.body.estado == 'publico'){
+                    if(req.file){
+                        fs.unlinkSync(path.join(__dirname, `../storage/public/${req.file.filename}`))
+                    }
+                }
+                if(req.body.estado == 'categoria'){
+                    if(req.file){
+                        fs.unlinkSync(path.join(__dirname, `../storage/private/${req.file.filename}`))
+                    }
+                }
+                return res.render('Posts/newpost', { user: req.user, err: 'categoria' })
+            }
+            if( errors.array(  )[0].param=='derechos' ){
+                if(req.body.estado == 'publico'){
+                    if(req.file){
+                        fs.unlinkSync(path.join(__dirname, `../storage/public/${req.file.filename}`))
+                    }
+                }
+                if(req.body.estado == 'categoria'){
+                    if(req.file){
+                        fs.unlinkSync(path.join(__dirname, `../storage/private/${req.file.filename}`))
+                    }
+                }
+                return res.render('Posts/newpost', { user: req.user, err: 'derechos' })
+            }
+            if( errors.array(  )[0].param=='etiquetas' ){
+                if(req.body.estado == 'publico'){
+                    if(req.file){
+                        fs.unlinkSync(path.join(__dirname, `../storage/public/${req.file.filename}`))
+                    }
+                }
+                if(req.body.estado == 'categoria'){
+                    if(req.file){
+                        fs.unlinkSync(path.join(__dirname, `../storage/private/${req.file.filename}`))
+                    }
+                }
+                return res.render('Posts/newpost', { user: req.user, err: 'etiquetas' })
+            }
+        }
+
+        if(!req.file){
+            return res.render('Posts/newpost', { user: req.user, err: 'image' })
+        }
+
         try {
             if(req.body.estado == "publico"){
                 const options = {

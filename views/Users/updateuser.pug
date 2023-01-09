@@ -6,6 +6,7 @@ html(lang="es-ES")
         div(class="container-update-user")
             form(action="/update/profile" method="POST" enctype="multipart/form-data")
                 div(class="info-title-update")
+                    div(id="error")
                     h1 Perfil del Usuario
                     p Cambia los datos que deceas actualizar en tu perfil.
                     hr
@@ -65,6 +66,43 @@ html(lang="es-ES")
                     button(type='submit') Actualizar Datos
                     a(href="/")
                         button(type='button') Cancelar
+        if(err == "nombre")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> El nombre es demasiado corto </p>"
+        if(err == "password")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> La contraseña es demasiado corta </p>"
+        if(err == "email")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> El email es incorrecto </p>"
+        if(err == "apellido")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> El apellido es demasiado corto </p>"
+        if(err == "fecha")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> Fecha incorrecta </p>"
+        if(err == "nickname")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> El apodo es demasiado corto </p>"
+        if(err == "intereses")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> EL campo intereses es demasiado corto </p>"
+        if(err == "ciudad")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> El campo ciudad es demasiado corto </p>"
+        if(err == "telefono")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> El telefono es incorrecto </p>"
+
         script. 
             var preview = (event)=>{
                 var file_image = new FileReader()

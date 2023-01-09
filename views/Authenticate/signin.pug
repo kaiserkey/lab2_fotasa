@@ -5,7 +5,8 @@ html(lang="es-ES")
         include ../Modules/nav.pug
         div(class="form-login")
             form(action="/signin" method="POST")
-            
+                div(id="error")
+                div(id="correcto")
                 div(class="imgcontainer")
                     img(src="/img/user-signin.png" alt="Avatar" class="avatar")
                 div(class="container")
@@ -24,5 +25,18 @@ html(lang="es-ES")
                 div(class="container-ask")
                     div(class="signup") ¿Ya Estas Registrado?
                         a(href="/signup") SignUp
+        if(registro)
+            script. 
+                var correcto = document.getElementById("correcto")
+                correcto.innerHTML = "<p> Registro correcto, puedes entrar! </p>"
         
+        if(email)
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> Usuario no registrado! Intenta nuevamente. </p>"
+        if(password)
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> Contraseña incorrecta! Intenta nuevamente. </p>"
+
         include ../Modules/footer.pug

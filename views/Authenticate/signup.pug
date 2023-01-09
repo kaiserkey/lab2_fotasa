@@ -6,6 +6,7 @@ html(lang="es-ES")
         div(class="form-login")
             form(action="/signup" method="POST")
                 div(class="info-signup")
+                    div(id="error")
                     h1 Registrarse
                     p Rellena el siguiente formulario para registrarte.
                 hr
@@ -31,5 +32,29 @@ html(lang="es-ES")
                 div(class="container-ask")
                     div(class="signup") ¿Ya Estas Registrado?
                         a(href="/signin") SignIn
-        
+        if(existUser)
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> El email ingresado ya se encuentra registrado </p>"
+        if(err == "nombre")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> El nombre es demasiado corto </p>"
+        if(err == "password")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> La contraseña es demasiado corta </p>"
+        if(err == "email")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> El email es incorrecto </p>"
+        if(err == "apellido")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> El apellido es demasiado corto </p>"
+        if(err == "fecha")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> Usted debe ser mayor de 18 años </p>"
+
         include ../Modules/footer.pug

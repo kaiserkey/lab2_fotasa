@@ -1323,3 +1323,33 @@ table td{
     cursor: pointer;
     background-color: #e6003aad;
 }
+
+/* estilo de error formularios */
+
+#error p{
+    margin: 5px auto;
+    font-weight: 600;
+    text-align: center;
+    color: #e60023; 
+    background-color: rgba(128, 128, 128, 0.5);
+    padding: 5px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+
+#correcto p{
+    margin: 5px auto;
+    font-weight: 600;
+    text-align: center;
+    color: white;
+    background-color: rgba(5, 185, 5, 0.5);
+    padding: 5px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}

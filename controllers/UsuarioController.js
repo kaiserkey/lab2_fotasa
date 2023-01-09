@@ -7,7 +7,8 @@ const { dbConfig } = require("../database/db_con"),
         path = require('path'),
         authConf = require( '../config/auth' ),
         { Op } = require('sequelize'),
-        Sequelize = require('sequelize')
+        Sequelize = require('sequelize'),
+        { body, validationResult } = require( 'express-validator' )
 
 module.exports = {
 
@@ -99,6 +100,66 @@ module.exports = {
     },
 
     async update(req,res){
+        
+        const errors = validationResult( req )
+
+        if ( !errors.isEmpty(  ) ) {
+            if( errors.array(  )[0].param=='password' ){
+                if(req.file){
+                    fs.unlinkSync(path.join(__dirname, `../storage/avatars/${req.file.filename}`))
+                }
+                return res.render( 'Users/updateuser' , { user:req.user, dateFormat: onlyDateUpdateUser, err: 'password' }) 
+            }
+            if( errors.array(  )[0].param=='email' ){
+                if(req.file){
+                    fs.unlinkSync(path.join(__dirname, `../storage/avatars/${req.file.filename}`))
+                }
+                return res.render( 'Users/updateuser' , { user:req.user, dateFormat: onlyDateUpdateUser, err: 'email' }) 
+            }
+            if( errors.array(  )[0].param=='apellido' ){
+                if(req.file){
+                    fs.unlinkSync(path.join(__dirname, `../storage/avatars/${req.file.filename}`))
+                }
+                return res.render( 'Users/updateuser' , { user:req.user, dateFormat: onlyDateUpdateUser, err: 'apellido' }) 
+            }
+            if( errors.array(  )[0].param=='nombre' ){
+                if(req.file){
+                    fs.unlinkSync(path.join(__dirname, `../storage/avatars/${req.file.filename}`))
+                }
+                return res.render( 'Users/updateuser' , { user:req.user, dateFormat: onlyDateUpdateUser, err: 'nombre' }) 
+            }
+            if( errors.array(  )[0].param=='nickname' ){
+                if(req.file){
+                    fs.unlinkSync(path.join(__dirname, `../storage/avatars/${req.file.filename}`))
+                }
+                return res.render( 'Users/updateuser' , { user:req.user, dateFormat: onlyDateUpdateUser, err: 'nickname' }) 
+            }
+            if( errors.array(  )[0].param=='intereses' ){
+                if(req.file){
+                    fs.unlinkSync(path.join(__dirname, `../storage/avatars/${req.file.filename}`))
+                }
+                return res.render( 'Users/updateuser' , { user:req.user, dateFormat: onlyDateUpdateUser, err: 'intereses' }) 
+            }
+            if( errors.array(  )[0].param=='ciudad' ){
+                if(req.file){
+                    fs.unlinkSync(path.join(__dirname, `../storage/avatars/${req.file.filename}`))
+                }
+                return res.render( 'Users/updateuser' , { user:req.user, dateFormat: onlyDateUpdateUser, err: 'ciudad' }) 
+            }
+            if( errors.array(  )[0].param=='telefono' ){
+                if(req.file){
+                    fs.unlinkSync(path.join(__dirname, `../storage/avatars/${req.file.filename}`))
+                }
+                return res.render( 'Users/updateuser' , { user:req.user, dateFormat: onlyDateUpdateUser, err: 'telefono' }) 
+            }
+        }
+        const fecha = new Date(), fecha_nacimiento = new Date(req.body.fecha_nacimiento)
+        fecha.setFullYear(fecha.getFullYear() - 18)
+
+        if( fecha_nacimiento > fecha ){
+            return res.render( 'Authenticate/signup', { err: 'fecha' } )
+        }
+
         try {
             //si el password es el mismo
             if(bcrypt.compareSync( req.body.password, req.user.password )){

@@ -25,7 +25,7 @@ module.exports = {
             )
             
             if( !user ){
-                res.render( 'Authenticate/signin', { error: 'login' } )
+                res.render( 'Authenticate/signin', { email: true } )
             }else{
                 
                 if( bcrypt.compareSync( password, user.password ) ){
@@ -45,25 +45,40 @@ module.exports = {
                     res.redirect( '/home' ) 
 
                 }else{
-                    res.render( 'Authenticate/signin',{ error: 'password' } )
+                    res.render( 'Authenticate/signin',{ password: true } )
                 }
             }
 
-        } catch ( error ) {
-            res.json( error )
+        } catch ( err ) {
+            console.log(err)
         }
     },
 
     async signUp( req,res ){
-        /* const errors = validationResult( req )
+        const errors = validationResult( req )
+
         if ( !errors.isEmpty(  ) ) {
             if( errors.array(  )[0].param=='password' ){
-                return res.render( 'signup', { err: 'password' } )
+                return res.render( 'Authenticate/signup', { err: 'password' } )
             }
             if( errors.array(  )[0].param=='email' ){
-                return res.render( 'signup', { err: 'email' } )
+                return res.render( 'Authenticate/signup', { err: 'email' } )
             }
-        } */
+            if( errors.array(  )[0].param=='apellido' ){
+                return res.render( 'Authenticate/signup', { err: 'apellido' } )
+            }
+            if( errors.array(  )[0].param=='nombre' ){
+                return res.render( 'Authenticate/signup', { err: 'nombre' } )
+            }
+        }
+        
+        const fecha = new Date(), fecha_nacimiento = new Date(req.body.fecha_nacimiento)
+        fecha.setFullYear(fecha.getFullYear() - 18)
+
+        if( fecha_nacimiento > fecha ){
+            return res.render( 'Authenticate/signup', { err: 'fecha' } )
+        }
+
         const existUser = await dbConfig.Usuario.findOne( 
             {
                 where: {
@@ -97,7 +112,7 @@ module.exports = {
                     return res.render( 'Authenticate/signup', {registro: false})
                 }
             } catch (err) {
-                res.json(err)
+                console.log(err)
             }
         }
         

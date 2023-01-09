@@ -6,6 +6,7 @@ html(lang="es-ES")
         
         div(class="container-post")
             form(action="/upload/public" method="POST" enctype="multipart/form-data" id="formulario")
+                div(id="error")
                 input(type="text" name="titulo" id="titulo" placeholder="Agrega un titulo" required)
                 div(class="estado")
                     h3 Tipo de Publicacion
@@ -15,7 +16,7 @@ html(lang="es-ES")
                 hr
                 
                 label(for="image") Selecciona Una Imagen
-                input(type="file" id="image" name="image" accept="image/png,image/jpeg,image/jpg,image/webp,image/gif" onchange="preview(event)")
+                input(type="file" id="image" name="image" accept="image/png,image/jpeg,image/jpg" onchange="preview(event)")
                 div(id="image-container")
                     img(src="/img/image-preview.png" id="image-preview")
                 input(type="hidden" name="resolucion" id="resolucion" value="")
@@ -47,6 +48,35 @@ html(lang="es-ES")
                 input(type="text" name="etiquetas" id="etiquetas" placeholder="TAGS: clima, lugares, transportes, viajes" required)
                 
                 button(type='submit') Guardar 
+
+        if(err == "titulo")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> El titulo es demasiado corto </p>"
+        if(err == "estado")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> Debes seleccionar un tipo de publicacion </p>"
+        if(err == "image")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> El post debe contener una imagen </p>"
+        if(err == "descripcion")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> La descripcion es demasiado corta </p>"
+        if(err == "etiquetas")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> La publicacion debe tener una etiqueta </p>"
+        if(err == "derechos")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> Debes seleccionar los derechos de autor </p>"
+        if(err == "etiquetas")
+            script. 
+                var error = document.getElementById("error")
+                error.innerHTML = "<p> Debes agregar etiquetas </p>"
 
         script. 
 
